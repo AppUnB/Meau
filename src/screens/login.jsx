@@ -4,7 +4,6 @@ import Textfield from "../components/textField";
 import Button from "../components/button";
 import { faSquareFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
-
 const Login = ({ navigation }) => {
   return (
     <>

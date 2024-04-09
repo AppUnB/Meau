@@ -19,9 +19,15 @@ const UnlogedScreen = ({ navigation }) => {
           <Text style={styles.explanationText}>
             Você não pode realizar esta ação sem possuir um cadastro.{" "}
           </Text>
-          <Button label="FAZER CADASTRO" />
+          <Button
+            label="FAZER CADASTRO"
+            onPress={() => navigation.navigate("Register")}
+          />
           <Text style={styles.explanationText2}>Já possui cadastro?</Text>
-          <Button label="FAZER LOGIN" />
+          <Button
+            label="FAZER LOGIN"
+            onPress={() => navigation.navigate("Login")}
+          />
         </View>
       </>
     );
