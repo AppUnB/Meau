@@ -1,13 +1,10 @@
 import { View, StyleSheet } from "react-native";
-import Header from "../components/header";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { faSquareFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const Login = ({ navigation }) => {
   return (
-    <>
-      <Header label="Login" />
       <View style={styles.homeContainer}>
         <View style={styles.fieldsContainer}>
           <Textfield placeholder="Nome de usuário" secureTextEntry={true} />
@@ -29,7 +26,6 @@ const Login = ({ navigation }) => {
           />
         </View>
       </View>
-    </>
   );
 };
 

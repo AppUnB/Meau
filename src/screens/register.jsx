@@ -7,41 +7,35 @@ import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 
 const Register = ({ navigation }) => {
   return (
-    <>
-      <Header label="Cadastro Pessoal" />
-      <ScrollView contentContainerStyle={styles.registerContainer}>
-        <Text style={styles.startText}>
-          As informações preenchidas serão divulgadas apenas para a pessoa com a
-          qual você realizar o processo de adoção e/ou apadrinhamento, após a
-          formalização do processo.
-        </Text>
-        <Text style={styles.positionText}>INFORMAÇÕES PESSOAIS</Text>
-        <View style={styles.fieldsContainer}>
-          <Textfield placeholder="Nome completo" />
-          <Textfield placeholder="Idade" />
-          <Textfield placeholder="E-mail" />
-          <Textfield placeholder="Estado" />
-          <Textfield placeholder="Cidade" />
-          <Textfield placeholder="Endereço" />
-          <Textfield placeholder="Telefone" />
-        </View>
-        <Text style={styles.positionText}>INFORMAÇÕES DE PERFIL</Text>
-        <View style={styles.fieldsContainer}>
-          <Textfield placeholder="Nome de usuário" />
-          <Textfield placeholder="Senha" secureTextEntry={true} />
-          <Textfield
-            placeholder="Confirmação de senha"
-            secureTextEntry={true}
-          />
-        </View>
-        <Text style={styles.positionText}>FOTO DE PERFIL</Text>
-        <View style={styles.imageContainer}>
-          <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
-          <Text>adicionar foto</Text>
-        </View>
-        <Button label="FAZER CADASTRO" />
-      </ScrollView>
-    </>
+    <ScrollView contentContainerStyle={styles.registerContainer}>
+      <Text style={styles.startText}>
+        As informações preenchidas serão divulgadas apenas para a pessoa com a
+        qual você realizar o processo de adoção e/ou apadrinhamento, após a
+        formalização do processo.
+      </Text>
+      <Text style={styles.positionText}>INFORMAÇÕES PESSOAIS</Text>
+      <View style={styles.fieldsContainer}>
+        <Textfield placeholder="Nome completo" />
+        <Textfield placeholder="Idade" />
+        <Textfield placeholder="E-mail" />
+        <Textfield placeholder="Estado" />
+        <Textfield placeholder="Cidade" />
+        <Textfield placeholder="Endereço" />
+        <Textfield placeholder="Telefone" />
+      </View>
+      <Text style={styles.positionText}>INFORMAÇÕES DE PERFIL</Text>
+      <View style={styles.fieldsContainer}>
+        <Textfield placeholder="Nome de usuário" />
+        <Textfield placeholder="Senha" secureTextEntry={true} />
+        <Textfield placeholder="Confirmação de senha" secureTextEntry={true} />
+      </View>
+      <Text style={styles.positionText}>FOTO DE PERFIL</Text>
+      <View style={styles.imageContainer}>
+        <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
+        <Text>adicionar foto</Text>
+      </View>
+      <Button label="FAZER CADASTRO" />
+    </ScrollView>
   );
 };
 
