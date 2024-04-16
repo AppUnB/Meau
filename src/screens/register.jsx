@@ -4,8 +4,23 @@ import Textfield from "../components/textField";
 import Button from "../components/button";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { signUp } from "../../services/auth";
 
 const Register = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  async function handleCadastro() {
+    if (password === confirmPassword) {
+      const user = await signUp(email, password);
+      if (user) {
+        navigation.navigate("Login");
+      }
+    }
+  }
+
   return (
     <>
       <Header label="Cadastro Pessoal" />
@@ -19,7 +34,7 @@ const Register = ({ navigation }) => {
         <View style={styles.fieldsContainer}>
           <Textfield placeholder="Nome completo" />
           <Textfield placeholder="Idade" />
-          <Textfield placeholder="E-mail" />
+          <Textfield placeholder="Nome de usuário" />
           <Textfield placeholder="Estado" />
           <Textfield placeholder="Cidade" />
           <Textfield placeholder="Endereço" />
@@ -27,11 +42,22 @@ const Register = ({ navigation }) => {
         </View>
         <Text style={styles.positionText}>INFORMAÇÕES DE PERFIL</Text>
         <View style={styles.fieldsContainer}>
-          <Textfield placeholder="Nome de usuário" />
-          <Textfield placeholder="Senha" secureTextEntry={true} />
+          <Textfield
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Textfield
+            placeholder="Senha"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
           <Textfield
             placeholder="Confirmação de senha"
             secureTextEntry={true}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
           />
         </View>
         <Text style={styles.positionText}>FOTO DE PERFIL</Text>
@@ -39,7 +65,7 @@ const Register = ({ navigation }) => {
           <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
           <Text>adicionar foto</Text>
         </View>
-        <Button label="FAZER CADASTRO" />
+        <Button label="FAZER CADASTRO" onPress={handleCadastro} />
       </ScrollView>
     </>
   );

@@ -3,17 +3,40 @@ import Header from "../components/header";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { faSquareFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { useState } from "react";
+import { signIn } from "../../services/auth";
 
 const Login = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleLogin() {
+    console.log(email, password);
+    const user = await signIn(email, password).catch(console.error);
+    console.log(user);
+    if (user) {
+      navigation.navigate("Home");
+    }
+  }
+
   return (
     <>
       <Header label="Login" />
       <View style={styles.homeContainer}>
         <View style={styles.fieldsContainer}>
-          <Textfield placeholder="Nome de usuário" secureTextEntry={true} />
-          <Textfield placeholder="Senha" secureTextEntry={true} />
+          <Textfield
+            placeholder="email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Textfield
+            placeholder="Senha"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
         </View>
-        <Button label="ENTRAR" />
+        <Button label="ENTRAR" onPress={handleLogin} />
         <View style={styles.platformsContainer}>
           <Button
             label="ENTRAR COM O FACEBOOK"
@@ -26,6 +49,7 @@ const Login = ({ navigation }) => {
             backgroundColor="#F15F5C"
             textColor="#ffffff"
             Icon={faGoogle}
+            onPress={handleLogin}
           />
         </View>
       </View>
