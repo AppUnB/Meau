@@ -2,36 +2,27 @@ import { View, StyleSheet, Text } from "react-native";
 import Header from "../components/header";
 import Button from "../components/button";
 import AppLoading from "expo-app-loading";
-import { useFonts, Courgette_400Regular } from "@expo-google-fonts/courgette";
 
 const UnlogedScreen = ({ navigation }) => {
-  let [fontsLoaded] = useFonts({
-    Courgette_400Regular,
-  });
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else {
-    return (
-      <>
-        <Header label="Cadastro" turnBack={true} />
-        <View style={styles.registerContainer}>
-          <Text style={styles.startText}>Ops!</Text>
-          <Text style={styles.explanationText}>
-            Você não pode realizar esta ação sem possuir um cadastro.{" "}
-          </Text>
-          <Button
-            label="FAZER CADASTRO"
-            onPress={() => navigation.navigate("Register")}
-          />
-          <Text style={styles.explanationText2}>Já possui cadastro?</Text>
-          <Button
-            label="FAZER LOGIN"
-            onPress={() => navigation.navigate("Login")}
-          />
-        </View>
-      </>
-    );
-  }
+  return (
+    <>
+      <View style={styles.registerContainer}>
+        <Text style={styles.startText}>Ops!</Text>
+        <Text style={styles.explanationText}>
+          Você não pode realizar esta ação sem possuir um cadastro.{" "}
+        </Text>
+        <Button
+          label="FAZER CADASTRO"
+          onPress={() => navigation.navigate("Register")}
+        />
+        <Text style={styles.explanationText2}>Já possui cadastro?</Text>
+        <Button
+          label="FAZER LOGIN"
+          onPress={() => navigation.navigate("Login")}
+        />
+      </View>
+    </>
+  );
 };
 
 export default UnlogedScreen;
