@@ -6,6 +6,8 @@ import Login from "./src/screens/login";
 import UnlogedScreen from "./src/screens/unlogedScreen";
 import Register from "./src/screens/register";
 import Home from "./src/screens/home";
+import AnimalRegister from "./src/screens/registerAnimal";
+import { NativeBaseProvider } from "native-base";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -29,12 +31,15 @@ const HomeStack = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeStack} />
-        <Drawer.Screen name="Login" component={Login} />  
-        <Drawer.Screen name="Cadastro" component={Register} />
-        {/* Adicione mais telas aqui se necessário */}
-      </Drawer.Navigator>
+      <NativeBaseProvider>
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={HomeStack} />
+          <Drawer.Screen name="Login" component={Login} />
+          <Drawer.Screen name="Cadastro" component={Register} />
+          <Drawer.Screen name="Cadastro do animal" component={AnimalRegister} />
+          {/* Adicione mais telas aqui se necessário */}
+        </Drawer.Navigator>
+      </NativeBaseProvider>
     </NavigationContainer>
   );
 }
