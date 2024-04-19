@@ -15,15 +15,13 @@ const Drawer = createDrawerNavigator();
 const HomeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeScreen"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="UnlogedScreen" component={UnlogedScreen} />
-      <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="HomeScreen" component={Home} />
     </Stack.Navigator>
   );
 };

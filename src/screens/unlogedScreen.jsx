@@ -13,7 +13,7 @@ const UnlogedScreen = ({ navigation }) => {
         </Text>
         <Button
           label="FAZER CADASTRO"
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate("Cadastro")}
         />
         <Text style={styles.explanationText2}>Já possui cadastro?</Text>
         <Button
