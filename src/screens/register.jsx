@@ -4,8 +4,27 @@ import Textfield from "../components/textField";
 import Button from "../components/button";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { register } from "../services/auth";
 
 const Register = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [verifyPassword, setVerifyPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleRegister() {
+    if (loading || !email || !password) return;
+
+    setLoading(true);
+    const user = await register(email, password);
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+    navigation.navigate("Home");
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.registerContainer}>
       <Text style={styles.startText}>
@@ -17,7 +36,7 @@ const Register = ({ navigation }) => {
       <View style={styles.fieldsContainer}>
         <Textfield placeholder="Nome completo" />
         <Textfield placeholder="Idade" />
-        <Textfield placeholder="E-mail" />
+        <Textfield placeholder="nome" />
         <Textfield placeholder="Estado" />
         <Textfield placeholder="Cidade" />
         <Textfield placeholder="Endereço" />
@@ -25,16 +44,26 @@ const Register = ({ navigation }) => {
       </View>
       <Text style={styles.positionText}>INFORMAÇÕES DE PERFIL</Text>
       <View style={styles.fieldsContainer}>
-        <Textfield placeholder="Nome de usuário" />
-        <Textfield placeholder="Senha" secureTextEntry={true} />
-        <Textfield placeholder="Confirmação de senha" secureTextEntry={true} />
+        <Textfield placeholder="email" value={email} onChangeText={setEmail} />
+        <Textfield
+          placeholder="Senha"
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
+        />
+        <Textfield
+          placeholder="Confirmação de senha"
+          secureTextEntry={true}
+          value={verifyPassword}
+          onChangeText={setVerifyPassword}
+        />
       </View>
       <Text style={styles.positionText}>FOTO DE PERFIL</Text>
       <View style={styles.imageContainer}>
         <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
         <Text>adicionar foto</Text>
       </View>
-      <Button label="FAZER CADASTRO" />
+      <Button label="FAZER CADASTRO" onPress={handleRegister} />
     </ScrollView>
   );
 };

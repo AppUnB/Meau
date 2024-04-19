@@ -1,31 +1,61 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { faSquareFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { useState } from "react";
+import { login } from "../services/auth";
 
 const Login = ({ navigation }) => {
-  return (
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogin() {
+    if (loading || !email || !password) return;
+
+    setLoading(true);
+    const user = await login(email, password);
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+    navigation.navigate("Home");
+  }
+
+  if (loading)
+    return (
       <View style={styles.homeContainer}>
-        <View style={styles.fieldsContainer}>
-          <Textfield placeholder="Nome de usuário" secureTextEntry={true} />
-          <Textfield placeholder="Senha" secureTextEntry={true} />
-        </View>
-        <Button label="ENTRAR" />
-        <View style={styles.platformsContainer}>
-          <Button
-            label="ENTRAR COM O FACEBOOK"
-            backgroundColor="#124F7C"
-            textColor="#ffffff"
-            Icon={faSquareFacebook}
-          />
-          <Button
-            label="ENTRAR COM O GOOGLE"
-            backgroundColor="#F15F5C"
-            textColor="#ffffff"
-            Icon={faGoogle}
-          />
-        </View>
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
+    );
+
+  return (
+    <View style={styles.homeContainer}>
+      <View style={styles.fieldsContainer}>
+        <Textfield placeholder="Email" value={email} onChangeText={setEmail} />
+        <Textfield
+          placeholder="Senha"
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
+        />
+      </View>
+      <Button label="ENTRAR" onPress={handleLogin} />
+      <View style={styles.platformsContainer}>
+        <Button
+          label="ENTRAR COM O FACEBOOK"
+          backgroundColor="#124F7C"
+          textColor="#ffffff"
+          Icon={faSquareFacebook}
+        />
+        <Button
+          label="ENTRAR COM O GOOGLE"
+          backgroundColor="#F15F5C"
+          textColor="#ffffff"
+          Icon={faGoogle}
+        />
+      </View>
+    </View>
   );
 };
 
