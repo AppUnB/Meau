@@ -1,5 +1,4 @@
 import { View, StyleSheet, Text, ScrollView } from "react-native";
-import Header from "../components/header";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";

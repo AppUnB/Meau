@@ -4,7 +4,6 @@ import Button from "../components/button";
 import { faSquareFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
 import { login } from "../services/auth";
-
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,12 +13,15 @@ const Login = ({ navigation }) => {
     if (loading || !email || !password) return;
 
     setLoading(true);
-    const user = await login(email, password);
+    const user = await login(email, password).then(() => undefined ).finally(() => {
+      setLoading(false);
+    });
     if (!user) {
       setLoading(false);
       return;
     }
-    navigation.navigate("Home");
+    setLoading(false);
+    console.log("Usuário logado com sucesso!");
   }
 
   if (loading)
@@ -61,7 +63,7 @@ const Login = ({ navigation }) => {
 
 export default Login;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
     flexDirection: "column",

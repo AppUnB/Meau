@@ -1,9 +1,11 @@
+import React, { useContext } from "react";
+import { AuthContext } from "../components/authProvider";
 import { View, StyleSheet, Text, Image } from "react-native";
-import Header from "../components/header";
 import Button from "../components/button";
-import AppLoading from "expo-app-loading";
 
 const Home = ({ navigation }) => {
+  const { isLoggedIn } = useContext(AuthContext);
+  console.log(isLoggedIn);
   return (
     <View style={styles.registerContainer}>
       <Text style={styles.startText}>Olá!</Text>
@@ -15,7 +17,7 @@ const Home = ({ navigation }) => {
         <Button
           label="ADOTAR"
           backgroundColor="#fdcf58"
-          onPress={() => navigation.navigate("UnlogedScreen")}
+          onPress={() => navigation.navigate("Adopt")}
         />
         <Button
           label="AJUDAR"
@@ -25,15 +27,16 @@ const Home = ({ navigation }) => {
         <Button
           label="CADASTRAR ANIMAL"
           backgroundColor="#fdcf58"
-          onPress={() => navigation.navigate("UnlogedScreen")}
+          onPress={() => navigation.navigate("RegisterAnimal")}
         />
       </View>
-      <Text
+      {!isLoggedIn ? (<Text
         style={styles.explanationText2}
         onPress={() => navigation.navigate("Login")}
       >
         Já possui cadastro?
-      </Text>
+      </Text>) : null
+      }
       <Image
         source={require("../assets/Meau_marca_2.png")}
         style={{
