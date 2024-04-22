@@ -16,13 +16,8 @@ const Register = ({ navigation }) => {
     if (loading || !email || !password) return;
 
     setLoading(true);
-    const user = await register(email, password);
-    if (!user) {
-      setLoading(false);
-      return;
+    await register(email, password).then(navigation.navigate("Home")).catch(() => setLoading(false)).finally(() => setLoading(false));
     }
-    navigation.navigate("Home");
-  }
 
   return (
     <ScrollView contentContainerStyle={styles.registerContainer}>
