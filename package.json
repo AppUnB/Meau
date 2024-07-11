@@ -24,6 +24,7 @@
     "@react-navigation/native-stack": "^6.9.8",
     "expo": "^51.0.20",
     "expo-app-loading": "^1.0.3",
+    "expo-image-picker": "~15.0.7",
     "expo-status-bar": "~1.12.1",
     "firebase": "^10.11.0",
     "native-base": "^3.4.28",
@@ -39,11 +40,11 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.19.6",
-    "expo-image-picker": "~15.0.7"
+    "react-native-web": "~0.19.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "react-native-dotenv": "^3.4.11"
   },
   "private": true
 }

@@ -6,14 +6,24 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDER_ID,
+  APP_ID,
+  MEASUREMENT_ID,
+} from "@env";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBVLeDwI7P7R5j2cH_3A-B6eW00W9J0DgQ",
-  authDomain: "meau-53b06.firebaseapp.com",
-  projectId: "meau-53b06",
-  storageBucket: "meau-53b06.appspot.com",
-  messagingSenderId: "499655111951",
-  appId: "1:499655111951:web:724469535e93549c0efa7a",
-  measurementId: "G-DQXY9GXD71",
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
