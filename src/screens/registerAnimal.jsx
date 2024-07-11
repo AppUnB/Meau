@@ -1,229 +1,132 @@
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { Radio, Stack, Checkbox } from "native-base";
-import { useState } from "react";
+import { Stack, Checkbox } from "native-base";
+import * as ImagePicker from 'expo-image-picker';
+import { RadioButton } from 'react-native-paper';
 
 const AnimalRegister = ({ navigation }) => {
   const [value, setValue] = useState("Cachorro");
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.registerContainer}>
-      <Text style={styles.positionText}>Cadastrar Animal</Text>
       <View style={styles.fieldsContainer}>
         <Text style={styles.LabelText}>NOME DO ANIMAL</Text>
         <Textfield placeholder="Nome do animal" />
         <Text style={styles.LabelText}>FOTOS DO ANIMAL</Text>
-        <View style={styles.imageContainer}>
-          <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
-          <Text>adicionar foto</Text>
-        </View>
+        <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.image} />
+          ) : (
+            <>
+              <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
+              <Text>adicionar foto</Text>
+            </>
+          )}
+        </TouchableOpacity>
         <Text style={styles.LabelText}>ESPÉCIE</Text>
-        <Radio.Group
-          name="SpeciesGroup"
-          accessibilityLabel="favorite number"
-          value={value}
-          onChange={(nextValue) => {
-            setValue(nextValue);
-          }}
-        >
-          <Stack
-            direction={{
-              base: "row",
-            }}
-            alignItems={{
-              base: "flex-start",
-              md: "center",
-            }}
-            space={4}
-            w="100%"
-          >
-            <Radio value="cachorro" my={1}>
-              Cachorro
-            </Radio>
-            <Radio value="gato" my={1}>
-              Gato
-            </Radio>
-          </Stack>
-        </Radio.Group>
+        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Cachorro" />
+            <Text>Cachorro</Text>
+          </View>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Gato" />
+            <Text>Gato</Text>
+          </View>
+        </RadioButton.Group>
         <Text style={styles.LabelText}>SEXO</Text>
-        <Radio.Group
-          name="SpeciesGroup"
-          accessibilityLabel="favorite number"
-          value={value}
-          onChange={(nextValue) => {
-            setValue(nextValue);
-          }}
-        >
-          <Stack
-            direction={{
-              base: "row",
-            }}
-            alignItems={{
-              base: "flex-start",
-              md: "center",
-            }}
-            space={4}
-            w="100%"
-          >
-            <Radio value="macho" my={1}>
-              Macho
-            </Radio>
-            <Radio value="femea" my={1}>
-              Fêmea
-            </Radio>
-          </Stack>
-        </Radio.Group>
+        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Macho" />
+            <Text>Macho</Text>
+          </View>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Fêmea" />
+            <Text>Fêmea</Text>
+          </View>
+        </RadioButton.Group>
         <Text style={styles.LabelText}>PORTE</Text>
-        <Radio.Group
-          name="SpeciesGroup"
-          accessibilityLabel="favorite number"
-          value={value}
-          onChange={(nextValue) => {
-            setValue(nextValue);
-          }}
-        >
-          <Stack
-            direction={{
-              base: "row",
-            }}
-            alignItems={{
-              base: "flex-start",
-              md: "center",
-            }}
-            space={4}
-            w="100%"
-          >
-            <Radio value="pequeno" my={1}>
-              Pequeno
-            </Radio>
-            <Radio value="medio" my={1}>
-              Médio
-            </Radio>
-            <Radio value="grande" my={1}>
-              Grande
-            </Radio>
-          </Stack>
-        </Radio.Group>
+        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Pequeno" />
+            <Text>Pequeno</Text>
+          </View>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Médio" />
+            <Text>Médio</Text>
+          </View>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Grande" />
+            <Text>Grande</Text>
+          </View>
+        </RadioButton.Group>
         <Text style={styles.LabelText}>IDADE</Text>
-        <Radio.Group
-          name="SpeciesGroup"
-          accessibilityLabel="favorite number"
-          value={value}
-          onChange={(nextValue) => {
-            setValue(nextValue);
-          }}
-        >
-          <Stack
-            direction={{
-              base: "row",
-            }}
-            alignItems={{
-              base: "flex-start",
-              md: "center",
-            }}
-            space={4}
-            w="100%"
-          >
-            <Radio value="filhote" my={1}>
-              Filhote
-            </Radio>
-            <Radio value="adulto" my={1}>
-              Adulto
-            </Radio>
-            <Radio value="idoso" my={1}>
-              Idoso
-            </Radio>
-          </Stack>
-        </Radio.Group>
+        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Filhote" />
+            <Text>Filhote</Text>
+          </View>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Adulto" />
+            <Text>Adulto</Text>
+          </View>
+          <View style={styles.radioContainer}>
+            <RadioButton value="Idoso" />
+            <Text>Idoso</Text>
+          </View>
+        </RadioButton.Group>
         <Text style={styles.LabelText}>TEMPERAMENTO</Text>
-        <Stack
-          direction={{
-            base: "row",
-          }}
-          alignItems={{
-            base: "flex-start",
-            md: "center",
-          }}
-          space={4}
-          w="100%"
-          mb="5"
-        >
+        <View style={styles.checkboxContainer}>
           <Checkbox>Brincalhão</Checkbox>
           <Checkbox>Tímido</Checkbox>
           <Checkbox>Calmo</Checkbox>
-        </Stack>
-        <Stack
-          direction={{
-            base: "row",
-          }}
-          alignItems={{
-            base: "flex-start",
-            md: "center",
-          }}
-          space={4}
-          w="100%"
-        >
+        </View>
+        <View style={styles.checkboxContainer}>
           <Checkbox>Guarda</Checkbox>
           <Checkbox>Amoroso</Checkbox>
           <Checkbox>Preguiçoso</Checkbox>
-        </Stack>
+        </View>
         <Text style={styles.LabelText}>SAÚDE</Text>
-        <Stack
-          direction={{
-            base: "row",
-          }}
-          alignItems={{
-            base: "flex-start",
-            md: "center",
-          }}
-          space={4}
-          w="100%"
-          mb="5"
-        >
+        <View style={styles.checkboxContainer}>
           <Checkbox>Vacinado</Checkbox>
           <Checkbox>Vermifugado</Checkbox>
-        </Stack>
-        <Stack
-          direction={{
-            base: "row",
-          }}
-          alignItems={{
-            base: "flex-start",
-            md: "center",
-          }}
-          space={4}
-          w="100%"
-        >
+        </View>
+        <View style={styles.checkboxContainer}>
           <Checkbox>Castrado</Checkbox>
           <Checkbox>Doente</Checkbox>
-        </Stack>
+        </View>
         <Textfield placeholder="Doenças do animal" />
         <Text style={styles.LabelText}>NECESSIDADES DO ANIMAL</Text>
-        <Stack
-          direction={{
-            base: "column",
-          }}
-          alignItems={{
-            base: "flex-start",
-            md: "center",
-          }}
-          space={4}
-          w="100%"
-        >
+        <View style={styles.checkboxContainer}>
           <Checkbox>Alimento</Checkbox>
           <Checkbox>Auxílio financeiro</Checkbox>
           <Checkbox>Medicamento</Checkbox>
           <Textfield placeholder="Nome do medicamento" />
           <Checkbox>Objetos</Checkbox>
           <Textfield placeholder="Especifique o(s) objeto(s)" />
-        </Stack>
+        </View>
         <Text style={styles.LabelText}>SOBRE O ANIMAL</Text>
         <Textfield placeholder="Compartilhe a história do animal" />
         <Stack mt="10" />
       </View>
-        <Button label="CADASTRAR"  />
+      <Button label="CADASTRAR" />
     </ScrollView>
   );
 };
@@ -250,19 +153,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 120,
     alignItems: "center",
-  },
-  startText: {
-    backgroundColor: "#CFE9E5",
-    textAlign: "center",
-    marginHorizontal: 20,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    borderRadius: 10,
-    fontSize: 14,
+    justifyContent: "center",
   },
   fieldsContainer: {
     flexDirection: "column",
-    alignItems: "left",
+    alignItems: "flex-start",
     gap: 6,
   },
   imageContainer: {
@@ -271,17 +166,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#d9d9d9",
     marginVertical: 28,
     borderRadius: 10,
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  positionText: {
-    width: "100%",
-    fontSize: 18,
-    fontWeight: "bold",
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 16,
-    textAlign: "left",
+  image: {
+    width: 320,
+    height: 80,
+    borderRadius: 10,
+  },
+  radioContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 });
