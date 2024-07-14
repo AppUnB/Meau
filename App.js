@@ -16,9 +16,9 @@ import AnimalRegister from "./src/screens/registerAnimal";
 import Adopt from "./src/screens/adopt";
 import { NativeBaseProvider } from "native-base";
 import { getAuth, signOut } from "firebase/auth";
+import UploadComp from "./src/screens/UploadImage";
 
 function CustomDrawerContent(props) {
-  
   const { isLoggedIn } = React.useContext(AuthContext);
   const { navigation } = props;
 
@@ -26,7 +26,7 @@ function CustomDrawerContent(props) {
     const auth = getAuth();
     try {
       await signOut(auth).finally(() => {
-        navigation.navigate("UnlogedScreen")
+        navigation.navigate("UnlogedScreen");
       });
     } catch (error) {
       console.error(error);
@@ -36,7 +36,10 @@ function CustomDrawerContent(props) {
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       {!isLoggedIn ? (
-        <DrawerItem label="Login" onPress={() => props.navigation.navigate('Login')} />
+        <DrawerItem
+          label="Login"
+          onPress={() => props.navigation.navigate("Login")}
+        />
       ) : (
         <DrawerItem label="Logout" onPress={handleLogout} />
       )}
@@ -65,7 +68,6 @@ const HomeStack = () => {
       <Stack.Screen name="HomeScreen" component={Home} />
       <Stack.Screen name="Adopt" component={Adopt} />
       <Stack.Screen name="Login" component={Login} />
-
     </Stack.Navigator>
   );
 };
@@ -79,7 +81,7 @@ export default function App({ navigation }) {
         <NativeBaseProvider>
           <Drawer.Navigator
             initialRouteName="Home"
-            drawerContent={props => <CustomDrawerContent {...props} />}
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
               headerStyle: {
                 backgroundColor: "#ffd358",
@@ -93,6 +95,7 @@ export default function App({ navigation }) {
               name="Cadastro do animal"
               component={AnimalRegister}
             />
+            <Drawer.Screen name="Upload de imagem" component={UploadComp} />
             {/* Adicione mais telas aqui se necessário */}
           </Drawer.Navigator>
         </NativeBaseProvider>

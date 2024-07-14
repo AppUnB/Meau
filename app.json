@@ -26,6 +26,13 @@
     "web": {
       "favicon": ""
     },
-    "plugins": []
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O app precisa de permissão para acessar suas fotos"
+        }
+      ]
+    ]
   }
 }

@@ -13,15 +13,17 @@ const Login = ({ navigation }) => {
     if (loading || !email || !password) return;
 
     setLoading(true);
-    const user = await login(email, password).then(() => undefined ).finally(() => {
-      setLoading(false);
-    });
+    const user = await login(email, password);
     if (!user) {
       setLoading(false);
       return;
     }
-    setLoading(false);
-    console.log("Usuário logado com sucesso!");
+    try {
+      console.log("tentando redirect");
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   if (loading)
