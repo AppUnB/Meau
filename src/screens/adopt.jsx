@@ -1,11 +1,10 @@
 import React from 'react';
+import { Text } from 'react-native';
 
 const Adopt = () => {
   return (
-    <div>
-      <h1>Adoption Page</h1>
-      {/* Add your adoption content here */}
-    </div>
+    <Text>Adoption Page
+    </Text>
   );
 };
 

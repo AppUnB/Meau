@@ -14,6 +14,7 @@ import Register from "./src/screens/register";
 import Home from "./src/screens/home";
 import AnimalRegister from "./src/screens/registerAnimal";
 import Adopt from "./src/screens/adopt";
+import AninmalDetails from "./src/screens/animalDetails";
 import { NativeBaseProvider } from "native-base";
 import { getAuth, signOut } from "firebase/auth";
 
@@ -93,6 +94,7 @@ export default function App({ navigation }) {
               name="Cadastro do animal"
               component={AnimalRegister}
             />
+            <Drawer.Screen name="Detalhes do Animal" component={AninmalDetails} />
             {/* Adicione mais telas aqui se necessário */}
           </Drawer.Navigator>
         </NativeBaseProvider>
