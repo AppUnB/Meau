@@ -27,7 +27,14 @@
       "favicon": "./src/assets/images/Meau_Icone.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+    
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O app precisa de permissão para acessar suas fotos"
+        }
+      ]
     ]
   }
 }

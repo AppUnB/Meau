@@ -36,3 +36,5 @@ yarn-error.*
 
 #workspace
 *.code-workspace
+
+.env
