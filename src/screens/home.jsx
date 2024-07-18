@@ -27,7 +27,7 @@ const Home = ({ navigation }) => {
         <Button
           label="CADASTRAR ANIMAL"
           backgroundColor="#fdcf58"
-          onPress={() => navigation.navigate("RegisterAnimal")}
+          onPress={() => navigation.navigate("AnimalRegister")}
         />
       </View>
       {!isLoggedIn ? (<Text

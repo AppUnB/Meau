@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 
 const Adopt = () => {
   return (
-    <Text>Adoption Page
+    <Text style={{ fontSize: 48 }}>Adoption Page
     </Text>
   );
 };

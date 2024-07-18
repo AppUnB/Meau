@@ -8,7 +8,7 @@ import { Stack, Checkbox } from "native-base";
 import * as ImagePicker from 'expo-image-picker';
 import { RadioButton } from 'react-native-paper';
 
-const AnimalRegister = ({ navigation }) => {
+const AnimalRegister = () => {
   const [value, setValue] = useState("Cachorro");
   const [image, setImage] = useState(null);
 

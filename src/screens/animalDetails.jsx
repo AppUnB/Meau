@@ -52,7 +52,7 @@ const AnimalDetails = (props) => {
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                     {renderDetail('Vacinado', props.vacinado ? 'Sim' : 'Não')}
-                    {renderDetail('Doenças', props.doencas ? 'Sim' : 'Não')}
+                    {renderDetail('Doenças', props.doencas ?? 'Não')}
                 </View>
                 <View style={styles.divider} />
                 {renderDetail('Temperamento', props.temperamento)}
@@ -104,10 +104,12 @@ AnimalDetails.defaultProps = {
     castrado: true,
     vermifugado: true,
     vacinado: true,
+    doencas: 'Diabetes',
     temperamento: 'Brincalhão e dócil',
     precisaDe: 'Ajuda financeira e alimento',
     exigenciasDoDoador: 'Termo de apadrinhamento, auxílio financeiro com alimentaçãoVisita prévia e entrevista',
     maisSobre: 'Pequi é uma cachorrinha muito dócil e brincalhona, adora correr e brincar com outros animais. Ela foi resgatada de um abrigo e precisa de um lar com muito amor e carinho. Pequi é um cão muito dócil e de fácil convivência. Adora caminhadas e se dá muito bem com crianças. Tem muito medo de raios e chuva. Está disponível para adoção pois eu e minha família o encontramos na rua e não podemos mantê-lo em nossa casa.',
+
 
 
 
@@ -209,11 +211,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#88c9bf',
         borderWidth: 2,
         borderColor: '#88c9bf',
-        shadowColor: '#888888',
-        shadowOffset: { width: 2, height: 2 }, // Sombra deslocada para o canto inferior direito
-        shadowOpacity: 0.8, // Opacidade da sombra
-        shadowRadius: 4, // Raio da sombra
-        elevation: 7, // Para Android
+        boxShadow: '0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08)',
     },
     floatingButton: {
         width: 56, // 56dp
