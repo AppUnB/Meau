@@ -15,21 +15,24 @@ const AnimalDetails = (props) => {
 
     return (
         <>
-            <View style={[{ flexDirection: 'column' }, styles.banner]}>
-                <TouchableOpacity style={styles.iconButton}>
+            <View style={styles.banner}>
+                <TouchableOpacity style={styles.iconButton} onPress={() => console.log('Voltar')}>
                     <Icon name="arrow-back" size={24} color="#434343" />
                 </TouchableOpacity>
                 <Text style={styles.bannerText}>{props.petName}</Text>
-                <TouchableOpacity style={styles.iconButton}>
+                <TouchableOpacity style={styles.iconButton} onPress={() => console.log('Compartilhando')}>
                     <Icon name="share" size={24} color="#434343" />
                 </TouchableOpacity>
             </View>
             <ScrollView>
-                <Image
-                    source={{ uri: props.imageUri }}
-                    style={styles.image}
-                    resizeMode='cover'
-                />
+
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={{ uri: props.imageUri }}
+                        style={styles.image}
+                        resizeMode='center'
+                    />
+                </View>
                 <TouchableOpacity style={styles.floatingButton} onPress={() => console.log('Editando')}>
                     <Icon name="edit" size={24} color="#434343" />
                 </TouchableOpacity>
@@ -96,7 +99,13 @@ const styles = StyleSheet.create({
         padding: 16, // Espaço à esquerda ajustado para 16dp
         justifyContent: 'space-between', // Espaçamento entre os itens
         alignItems: 'center', // Centraliza os itens verticalmente no banner
-
+    },
+    bannerText: {
+        color: '#434343', // Cor do texto
+        fontSize: 20, // Tamanho do texto 20pt
+        fontFamily: 'Roboto-Medium', // Fonte Roboto Medium
+        textAlign: 'left',
+        alignContent: 'center',
     },
     iconButton: {
         // Para um limite circular, use borderRadius com metade do tamanho (altura ou largura)
@@ -108,24 +117,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'transparent', // Ajuste a cor de fundo conforme necessário
     },
-    navIcon: {
-        width: 24, // Largura do ícone 24dp
-        height: 24, // Altura do ícone 24dp
-        color: '#434343',
-        marginRight: 16, // Margem à direita para espaçamento
-    },
-
-    bannerText: {
-        color: '#434343', // Cor do texto
-        fontSize: 20, // Tamanho do texto 20pt
-        fontFamily: 'Roboto-Medium', // Fonte Roboto Medium
-        marginLeft: 16, // Margem à esquerda para espaçamento
-        textAlign: 'left',
+    imageContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     image: {
-        width: 'auto', // Largura da imagem 360dp
+        width: 'auto',
+        minWidth: 360, // Largura mínima da imagem 360dp
+        maxWidth: 400, // Largura da imagem 360dp
         height: 184, // Altura da imagem 184dp
-
     },
     petName: {
         fontFamily: 'Roboto-Medium', // Certifique-se de que a fonte Roboto Medium está disponível
@@ -172,7 +173,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         includeFontPadding: true,
         color: '#757575',
-
     },
     button: {
         width: '45%',
@@ -204,6 +204,5 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
     },
-
 
 });

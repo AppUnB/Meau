@@ -38,7 +38,7 @@ const Home = ({ navigation }) => {
       </Text>) : null
       }
       <Image
-        source={require("../assets/Meau_marca_2.png")}
+        source={require("../assets/images/Meau_marca_2.png")}
         style={{
           width: 100,
           height: 100,

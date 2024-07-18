@@ -17,6 +17,26 @@ import Adopt from "./src/screens/adopt";
 import AninmalDetails from "./src/screens/animalDetails";
 import { NativeBaseProvider } from "native-base";
 import { getAuth, signOut } from "firebase/auth";
+import {
+  useFonts,
+  Roboto_100Thin,
+  Roboto_100Thin_Italic,
+  Roboto_300Light,
+  Roboto_300Light_Italic,
+  Roboto_400Regular,
+  Roboto_400Regular_Italic,
+  Roboto_500Medium,
+  Roboto_500Medium_Italic,
+  Roboto_700Bold,
+  Roboto_700Bold_Italic,
+  Roboto_900Black,
+  Roboto_900Black_Italic,
+} from "@expo-google-fonts/roboto";
+import { Courgette_400Regular } from "@expo-google-fonts/courgette";
+import SplashScreen from "expo-splash-screen";
+import { useCallback } from "react";
+
+
 
 function CustomDrawerContent(props) {
   
@@ -72,6 +92,32 @@ const HomeStack = () => {
 };
 
 export default function App({ navigation }) {
+  let [fontsLoaded] = useFonts({
+    Roboto_100Thin,
+    Roboto_100Thin_Italic,
+    Roboto_300Light,
+    Roboto_300Light_Italic,
+    Roboto_400Regular,
+    Roboto_400Regular_Italic,
+    Roboto_500Medium,
+    Roboto_500Medium_Italic,
+    Roboto_700Bold,
+    Roboto_700Bold_Italic,
+    Roboto_900Black,
+    Roboto_900Black_Italic,
+    Courgette_400Regular,
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   const Drawer = createDrawerNavigator();
 
   return (
