@@ -4,10 +4,10 @@
     "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "",
+    "icon": "./src/assets/images/Meau_Icone.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "",
+      "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,10 +24,17 @@
       }
     },
     "web": {
-      "favicon": ""
+      "favicon": "./src/assets/images/Meau_Icone.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+    
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O app precisa de permissão para acessar suas fotos"
+        }
+      ]
     ]
   }
 }
