@@ -91,6 +91,8 @@ const HomeStack = () => {
   );
 };
 
+const Drawer = createDrawerNavigator();
+
 export default function App({ navigation }) {
   let [fontsLoaded] = useFonts({
     Roboto_100Thin,
@@ -118,7 +120,6 @@ export default function App({ navigation }) {
     return null;
   }
 
-  const Drawer = createDrawerNavigator();
 
   return (
     <AuthProvider>
