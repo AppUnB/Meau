@@ -17,31 +17,20 @@ import Adopt from "./src/screens/adopt";
 import AninmalDetails from "./src/screens/animalDetails";
 import { NativeBaseProvider } from "native-base";
 import { getAuth, signOut } from "firebase/auth";
-import {
-  useFonts,
-  Roboto_100Thin,
-  Roboto_100Thin_Italic,
-  Roboto_300Light,
-  Roboto_300Light_Italic,
-  Roboto_400Regular,
-  Roboto_400Regular_Italic,
-  Roboto_500Medium,
-  Roboto_500Medium_Italic,
-  Roboto_700Bold,
-  Roboto_700Bold_Italic,
-  Roboto_900Black,
-  Roboto_900Black_Italic,
-} from "@expo-google-fonts/roboto";
-import { Courgette_400Regular } from "@expo-google-fonts/courgette";
-import SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
-
-
+import Roboto from "@expo-google-fonts/roboto";
+import { Courgette_400Regular, useFonts } from "@expo-google-fonts/courgette";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import PropTypes from 'prop-types';
 
 function CustomDrawerContent(props) {
-  
   const { isLoggedIn } = React.useContext(AuthContext);
   const { navigation } = props;
+
+  CustomDrawerContent.propTypes = {
+    navigation: PropTypes.object.isRequired,
+  };
+
 
   const handleLogout = async () => {
     const auth = getAuth();
@@ -93,30 +82,20 @@ const HomeStack = () => {
 
 const Drawer = createDrawerNavigator();
 
-export default function App({ navigation }) {
-  let [fontsLoaded] = useFonts({
-    Roboto_100Thin,
-    Roboto_100Thin_Italic,
-    Roboto_300Light,
-    Roboto_300Light_Italic,
-    Roboto_400Regular,
-    Roboto_400Regular_Italic,
-    Roboto_500Medium,
-    Roboto_500Medium_Italic,
-    Roboto_700Bold,
-    Roboto_700Bold_Italic,
-    Roboto_900Black,
-    Roboto_900Black_Italic,
+export default function App() {
+  SplashScreen.preventAutoHideAsync();
+  let [loaded, error] = useFonts({
+    ...Roboto,
     Courgette_400Regular,
   });
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
+  }, [loaded, error]);
 
-  if (!fontsLoaded) {
+  if (!loaded && !error) {
     return null;
   }
 

@@ -52,7 +52,7 @@ const AnimalDetails = (props) => {
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                     {renderDetail('Vacinado', props.vacinado ? 'Sim' : 'Não')}
-                    {renderDetail('Doenças', props.doenças ? 'Sim' : 'Não')}
+                    {renderDetail('Doenças', props.doencas ? 'Sim' : 'Não')}
                 </View>
                 <View style={styles.divider} />
                 {renderDetail('Temperamento', props.temperamento)}
@@ -79,12 +79,39 @@ const AnimalDetails = (props) => {
 AnimalDetails.propTypes = {
     imageUri: PropTypes.string,
     petName: PropTypes.string,
+    sexo: PropTypes.string.isRequired,
+    porte: PropTypes.string.isRequired,
+    idade: PropTypes.string,
+    localizacao: PropTypes.string,
+    castrado: PropTypes.bool,
+    vermifugado: PropTypes.bool,
+    vacinado: PropTypes.bool,
+    doencas: PropTypes.string,
+    temperamento: PropTypes.string,
+    precisaDe: PropTypes.string,
+    exigenciasDoDoador: PropTypes.string,
+    maisSobre: PropTypes.string,
 };
 
 // Definindo defaultProps
 AnimalDetails.defaultProps = {
     imageUri: 'https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     petName: 'Pequi',
+    sexo: 'Fêmea',
+    porte: 'Pequeno',
+    idade: '1 ano',
+    localizacao: 'São Paulo, SP',
+    castrado: true,
+    vermifugado: true,
+    vacinado: true,
+    temperamento: 'Brincalhão e dócil',
+    precisaDe: 'Ajuda financeira e alimento',
+    exigenciasDoDoador: 'Termo de apadrinhamento, auxílio financeiro com alimentaçãoVisita prévia e entrevista',
+    maisSobre: 'Pequi é uma cachorrinha muito dócil e brincalhona, adora correr e brincar com outros animais. Ela foi resgatada de um abrigo e precisa de um lar com muito amor e carinho. Pequi é um cão muito dócil e de fácil convivência. Adora caminhadas e se dá muito bem com crianças. Tem muito medo de raios e chuva. Está disponível para adoção pois eu e minha família o encontramos na rua e não podemos mantê-lo em nossa casa.',
+
+
+
+    
 };
 
 export default AnimalDetails;
@@ -103,7 +130,7 @@ const styles = StyleSheet.create({
     bannerText: {
         color: '#434343', // Cor do texto
         fontSize: 20, // Tamanho do texto 20pt
-        fontFamily: 'Roboto-Medium', // Fonte Roboto Medium
+        fontFamily: 'Roboto_500Medium', // Fonte Roboto Medium
         textAlign: 'left',
         alignContent: 'center',
     },
@@ -129,7 +156,7 @@ const styles = StyleSheet.create({
         height: 184, // Altura da imagem 184dp
     },
     petName: {
-        fontFamily: 'Roboto-Medium', // Certifique-se de que a fonte Roboto Medium está disponível
+        fontFamily: 'Roboto_500Medium', // Certifique-se de que a fonte Roboto Medium está disponível
         fontWeight: 'bold',
         fontSize: 16,
         color: '#434343',
@@ -149,14 +176,14 @@ const styles = StyleSheet.create({
     label: {
         fontWeight: 'bold',
         textTransform: 'uppercase', // Transforma o texto em maiúsculas
-        fontFamily: 'Roboto-Regular', // Mudança para Roboto Regular
+        fontFamily: 'Roboto_400Regular', // Mudança para Roboto Regular
         fontSize: 12, // Tamanho do texto para 12px
         color: '#589b9b', // Cor do texto para #589b9b
         marginTop: 16,
         marginBottom: 8,
     },
     value: {
-        fontFamily: 'Roboto-Regular', // Define a fonte para Roboto Regular
+        fontFamily: 'Roboto_400Regular', // Define a fonte para Roboto Regular
         fontSize: 14, // Define o tamanho da fonte para 14px
         color: '#757575', // Define a cor do texto para #757575
         marginBottom: 16, // Define a margem final para 16px
