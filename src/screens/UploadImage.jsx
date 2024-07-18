@@ -31,7 +31,6 @@ const UploadComp = ({ navigation }) => {
   };
 
   function handleUploadImage() {
-    console.log("upload");
     const path = "images/" + new Date().getTime();
     uploadImage(image, path).then((url) => {
       setEnviada(url);
@@ -43,9 +42,7 @@ const UploadComp = ({ navigation }) => {
       <Text style={styles.LabelText}>Enviar nova foto</Text>
       {image && <Image source={{ uri: image }} style={styles.image} />}
       <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
-        <>
-          <Text>escolher foto para enviar +</Text>
-        </>
+        <Text>escolher foto para enviar +</Text>
       </TouchableOpacity>
       <Stack mt="10" />
       <Button label="Enviar" onPress={handleUploadImage} />

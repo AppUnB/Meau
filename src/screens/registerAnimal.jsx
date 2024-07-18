@@ -1,132 +1,184 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { Stack, Checkbox } from "native-base";
-import * as ImagePicker from 'expo-image-picker';
-import { RadioButton } from 'react-native-paper';
+import * as ImagePicker from "expo-image-picker";
+import { RadioButton } from "react-native-paper";
+import { useForm, Controller } from "react-hook-form";
+import { cadastrarAnimal } from "../services/animalService";
 
 const AnimalRegister = ({ navigation }) => {
-  const [value, setValue] = useState("Cachorro");
   const [image, setImage] = useState(null);
+
+  const { register, setValue, handleSubmit, watch, control } = useForm();
+
+  useEffect(() => {
+    register("nome");
+    register("especie");
+    register("sexo");
+    register("imageUrl");
+  }, [register]);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [3, 3],
       quality: 1,
     });
+    console.log(result);
     if (!result.cancelled) {
-      setImage(result.uri);
+      const image = result.assets[0].uri;
+      const path = "images/pet/" + new Date().getTime();
+      uploadImage(image, path).then((url) => {
+        setValue("imageUrl", url);
+      });
     }
   };
+
+  function onSubmit(data) {
+    console.log(data);
+    cadastrarAnimal(data);
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.registerContainer}>
       <View style={styles.fieldsContainer}>
         <Text style={styles.LabelText}>NOME DO ANIMAL</Text>
-        <Textfield placeholder="Nome do animal" />
+        <Textfield
+          placeholder="Nome do animal"
+          onChangeText={(text) => setValue("nome", text)}
+        />
+        <Text>{watch("nome")}</Text>
+        <Text>{watch("especie")}</Text>
+        <Text>{watch("sexo")}</Text>
         <Text style={styles.LabelText}>FOTOS DO ANIMAL</Text>
         <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
-          {image ? (
-            <Image source={{ uri: image }} style={styles.image} />
-          ) : (
+          {!watch("imageUrl") ? (
             <>
-              <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
-              <Text>adicionar foto</Text>
+              <Text>escolher foto para enviar +</Text>
             </>
+          ) : (
+            <Image source={{ uri: watch("imageUrl") }} style={styles.image} />
           )}
         </TouchableOpacity>
         <Text style={styles.LabelText}>ESPÉCIE</Text>
-        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Cachorro" />
-            <Text>Cachorro</Text>
-          </View>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Gato" />
-            <Text>Gato</Text>
-          </View>
-        </RadioButton.Group>
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <RadioButton.Group onValueChange={onChange} value={value}>
+              <View style={styles.radioContainer}>
+                <RadioButton value="cachorro" />
+                <Text>Cachorro</Text>
+              </View>
+              <View style={styles.radioContainer}>
+                <RadioButton value="gato" />
+                <Text>Gato</Text>
+              </View>
+            </RadioButton.Group>
+          )}
+          name="especie"
+          defaultValue="cachorro"
+        />
         <Text style={styles.LabelText}>SEXO</Text>
-        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Macho" />
-            <Text>Macho</Text>
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <RadioButton.Group onValueChange={onChange} value={value}>
+              <View style={styles.radioContainer}>
+                <RadioButton value="macho" />
+                <Text>Macho</Text>
+              </View>
+              <View style={styles.radioContainer}>
+                <RadioButton value="femea" />
+                <Text>Fêmea</Text>
+              </View>
+            </RadioButton.Group>
+          )}
+          name="sexo"
+          defaultValue="macho"
+        />
+        {/* <Text style={styles.LabelText}>PORTE</Text>
+          <RadioButton.Group
+            onValueChange={(value) => setValue(value)}
+            value={value}
+          >
+            <View style={styles.radioContainer}>
+              <RadioButton value="Pequeno" />
+              <Text>Pequeno</Text>
+            </View>
+            <View style={styles.radioContainer}>
+              <RadioButton value="Médio" />
+              <Text>Médio</Text>
+            </View>
+            <View style={styles.radioContainer}>
+              <RadioButton value="Grande" />
+              <Text>Grande</Text>
+            </View>
+          </RadioButton.Group>
+          <Text style={styles.LabelText}>IDADE</Text>
+          <RadioButton.Group
+            onValueChange={(value) => setValue(value)}
+            value={value}
+          >
+            <View style={styles.radioContainer}>
+              <RadioButton value="Filhote" />
+              <Text>Filhote</Text>
+            </View>
+            <View style={styles.radioContainer}>
+              <RadioButton value="Adulto" />
+              <Text>Adulto</Text>
+            </View>
+            <View style={styles.radioContainer}>
+              <RadioButton value="Idoso" />
+              <Text>Idoso</Text>
+            </View>
+          </RadioButton.Group>
+          <Text style={styles.LabelText}>TEMPERAMENTO</Text>
+          <View style={styles.checkboxContainer}>
+            <Checkbox>Brincalhão</Checkbox>
+            <Checkbox>Tímido</Checkbox>
+            <Checkbox>Calmo</Checkbox>
           </View>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Fêmea" />
-            <Text>Fêmea</Text>
+          <View style={styles.checkboxContainer}>
+            <Checkbox>Guarda</Checkbox>
+            <Checkbox>Amoroso</Checkbox>
+            <Checkbox>Preguiçoso</Checkbox>
           </View>
-        </RadioButton.Group>
-        <Text style={styles.LabelText}>PORTE</Text>
-        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Pequeno" />
-            <Text>Pequeno</Text>
+          <Text style={styles.LabelText}>SAÚDE</Text>
+          <View style={styles.checkboxContainer}>
+            <Checkbox>Vacinado</Checkbox>
+            <Checkbox>Vermifugado</Checkbox>
           </View>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Médio" />
-            <Text>Médio</Text>
+          <View style={styles.checkboxContainer}>
+            <Checkbox>Castrado</Checkbox>
+            <Checkbox>Doente</Checkbox>
           </View>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Grande" />
-            <Text>Grande</Text>
+          <Textfield placeholder="Doenças do animal" />
+          <Text style={styles.LabelText}>NECESSIDADES DO ANIMAL</Text>
+          <View style={styles.checkboxContainer}>
+            <Checkbox>Alimento</Checkbox>
+            <Checkbox>Auxílio financeiro</Checkbox>
+            <Checkbox>Medicamento</Checkbox>
+            <Textfield placeholder="Nome do medicamento" />
+            <Checkbox>Objetos</Checkbox>
+            <Textfield placeholder="Especifique o(s) objeto(s)" />
           </View>
-        </RadioButton.Group>
-        <Text style={styles.LabelText}>IDADE</Text>
-        <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Filhote" />
-            <Text>Filhote</Text>
-          </View>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Adulto" />
-            <Text>Adulto</Text>
-          </View>
-          <View style={styles.radioContainer}>
-            <RadioButton value="Idoso" />
-            <Text>Idoso</Text>
-          </View>
-        </RadioButton.Group>
-        <Text style={styles.LabelText}>TEMPERAMENTO</Text>
-        <View style={styles.checkboxContainer}>
-          <Checkbox>Brincalhão</Checkbox>
-          <Checkbox>Tímido</Checkbox>
-          <Checkbox>Calmo</Checkbox>
-        </View>
-        <View style={styles.checkboxContainer}>
-          <Checkbox>Guarda</Checkbox>
-          <Checkbox>Amoroso</Checkbox>
-          <Checkbox>Preguiçoso</Checkbox>
-        </View>
-        <Text style={styles.LabelText}>SAÚDE</Text>
-        <View style={styles.checkboxContainer}>
-          <Checkbox>Vacinado</Checkbox>
-          <Checkbox>Vermifugado</Checkbox>
-        </View>
-        <View style={styles.checkboxContainer}>
-          <Checkbox>Castrado</Checkbox>
-          <Checkbox>Doente</Checkbox>
-        </View>
-        <Textfield placeholder="Doenças do animal" />
-        <Text style={styles.LabelText}>NECESSIDADES DO ANIMAL</Text>
-        <View style={styles.checkboxContainer}>
-          <Checkbox>Alimento</Checkbox>
-          <Checkbox>Auxílio financeiro</Checkbox>
-          <Checkbox>Medicamento</Checkbox>
-          <Textfield placeholder="Nome do medicamento" />
-          <Checkbox>Objetos</Checkbox>
-          <Textfield placeholder="Especifique o(s) objeto(s)" />
-        </View>
-        <Text style={styles.LabelText}>SOBRE O ANIMAL</Text>
-        <Textfield placeholder="Compartilhe a história do animal" />
+          <Text style={styles.LabelText}>SOBRE O ANIMAL</Text>
+          <Textfield placeholder="Compartilhe a história do animal" /> */}
         <Stack mt="10" />
       </View>
-      <Button label="CADASTRAR" />
+      <Button label="CADASTRAR" onPress={handleSubmit(onSubmit)} />
     </ScrollView>
   );
 };
