@@ -14,7 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import { RadioButton } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { cadastrarAnimal } from "../services/animalService";
-import { uploadImage } from "../services/imageService";
+import { uploadImage } from "../services/imageUpload.service";
 
 function AnimalRegister () {
 
