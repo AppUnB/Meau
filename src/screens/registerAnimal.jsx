@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -9,16 +9,14 @@ import {
 } from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { Stack, Checkbox } from "native-base";
+import { Stack } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import { RadioButton } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { cadastrarAnimal } from "../services/animalService";
+import { uploadImage } from "../services/imageService";
 
-const AnimalRegister = () => {
-  const [image, setImage] = useState(null);
+function AnimalRegister () {
 
   const { register, setValue, handleSubmit, watch, control } = useForm();
 
