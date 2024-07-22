@@ -15,10 +15,11 @@ import Home from "./src/screens/home";
 import AnimalRegister from "./src/screens/registerAnimal";
 import Adopt from "./src/screens/adopt";
 import AninmalDetails from "./src/screens/animalDetails";
-import { NativeBaseProvider } from "native-base";
+import { StyleProvider } from "native-base";
 import { getAuth, signOut } from "firebase/auth";
 import Roboto from "@expo-google-fonts/roboto";
-import { Courgette_400Regular, useFonts } from "@expo-google-fonts/courgette";
+import { Courgette_400Regular } from "@expo-google-fonts/courgette";
+import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import PropTypes from 'prop-types';
@@ -106,7 +107,7 @@ export default function App() {
   return (
     <AuthProvider>
       <NavigationContainer>
-        <NativeBaseProvider>
+        <StyleProvider>
           <Drawer.Navigator
             initialRouteName="Home"
             drawerContent={(props) => <CustomDrawerContent {...props} />}
@@ -127,7 +128,7 @@ export default function App() {
             <Drawer.Screen name="Upload de imagem" component={UploadComp} />
             {/* Adicione mais telas aqui se necessário */}
           </Drawer.Navigator>
-        </NativeBaseProvider>
+        </StyleProvider>
       </NavigationContainer>
     </AuthProvider>
   );

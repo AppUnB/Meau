@@ -75,6 +75,8 @@ const AnimalDetails = (props) => {
     );
 };
 
+export default AnimalDetails;
+
 // Definindo propTypes
 AnimalDetails.propTypes = {
     imageUri: PropTypes.string,
@@ -115,8 +117,6 @@ AnimalDetails.defaultProps = {
 
     
 };
-
-export default AnimalDetails;
 
 
 const styles = StyleSheet.create({

@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
+import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Button from "../components/button";
-import AppLoading from "expo-app-loading";
 
 const UnlogedScreen = ({ navigation }) => {
   return (

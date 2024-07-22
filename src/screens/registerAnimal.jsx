@@ -9,14 +9,14 @@ import {
 } from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
-import { Stack } from "native-base";
+
 import * as ImagePicker from "expo-image-picker";
 import { RadioButton } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { cadastrarAnimal } from "../services/animalService";
 import { uploadImage } from "../services/imageUpload.service";
 
-function AnimalRegister () {
+function AnimalRegister() {
 
   const { register, setValue, handleSubmit, watch, control } = useForm();
 
@@ -106,75 +106,6 @@ function AnimalRegister () {
           name="sexo"
           defaultValue="macho"
         />
-        {/* <Text style={styles.LabelText}>PORTE</Text>
-          <RadioButton.Group
-            onValueChange={(value) => setValue(value)}
-            value={value}
-          >
-            <View style={styles.radioContainer}>
-              <RadioButton value="Pequeno" />
-              <Text>Pequeno</Text>
-            </View>
-            <View style={styles.radioContainer}>
-              <RadioButton value="Médio" />
-              <Text>Médio</Text>
-            </View>
-            <View style={styles.radioContainer}>
-              <RadioButton value="Grande" />
-              <Text>Grande</Text>
-            </View>
-          </RadioButton.Group>
-          <Text style={styles.LabelText}>IDADE</Text>
-          <RadioButton.Group
-            onValueChange={(value) => setValue(value)}
-            value={value}
-          >
-            <View style={styles.radioContainer}>
-              <RadioButton value="Filhote" />
-              <Text>Filhote</Text>
-            </View>
-            <View style={styles.radioContainer}>
-              <RadioButton value="Adulto" />
-              <Text>Adulto</Text>
-            </View>
-            <View style={styles.radioContainer}>
-              <RadioButton value="Idoso" />
-              <Text>Idoso</Text>
-            </View>
-          </RadioButton.Group>
-          <Text style={styles.LabelText}>TEMPERAMENTO</Text>
-          <View style={styles.checkboxContainer}>
-            <Checkbox>Brincalhão</Checkbox>
-            <Checkbox>Tímido</Checkbox>
-            <Checkbox>Calmo</Checkbox>
-          </View>
-          <View style={styles.checkboxContainer}>
-            <Checkbox>Guarda</Checkbox>
-            <Checkbox>Amoroso</Checkbox>
-            <Checkbox>Preguiçoso</Checkbox>
-          </View>
-          <Text style={styles.LabelText}>SAÚDE</Text>
-          <View style={styles.checkboxContainer}>
-            <Checkbox>Vacinado</Checkbox>
-            <Checkbox>Vermifugado</Checkbox>
-          </View>
-          <View style={styles.checkboxContainer}>
-            <Checkbox>Castrado</Checkbox>
-            <Checkbox>Doente</Checkbox>
-          </View>
-          <Textfield placeholder="Doenças do animal" />
-          <Text style={styles.LabelText}>NECESSIDADES DO ANIMAL</Text>
-          <View style={styles.checkboxContainer}>
-            <Checkbox>Alimento</Checkbox>
-            <Checkbox>Auxílio financeiro</Checkbox>
-            <Checkbox>Medicamento</Checkbox>
-            <Textfield placeholder="Nome do medicamento" />
-            <Checkbox>Objetos</Checkbox>
-            <Textfield placeholder="Especifique o(s) objeto(s)" />
-          </View>
-          <Text style={styles.LabelText}>SOBRE O ANIMAL</Text>
-          <Textfield placeholder="Compartilhe a história do animal" /> */}
-        <Stack mt="10" />
       </View>
       <Button label="CADASTRAR" onPress={handleSubmit(onSubmit)} />
     </ScrollView>

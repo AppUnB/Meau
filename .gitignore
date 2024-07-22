@@ -39,3 +39,7 @@ yarn-error.*
 *.code-workspace
 
 .env
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

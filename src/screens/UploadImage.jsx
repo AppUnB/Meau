@@ -8,14 +8,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Button from "../components/button";
-import { Stack } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 
 import { uploadImage } from "../services/imageUpload.service";
 
-const UploadComp = ({ navigation }) => {
-  const [image, setImage] = useState(null);
-  const [enviada, setEnviada] = useState(null);
+const UploadComp = () => {
+  const [image, setImage] = useState(undefined);
+  const [enviada, setEnviada] = useState(undefined);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -28,6 +27,7 @@ const UploadComp = ({ navigation }) => {
     if (!result.cancelled) {
       setImage(result.assets[0].uri);
     }
+    
   };
 
   function handleUploadImage() {
@@ -44,11 +44,10 @@ const UploadComp = ({ navigation }) => {
       <TouchableOpacity onPress={pickImage} style={styles.imageContainer}>
         <Text>escolher foto para enviar +</Text>
       </TouchableOpacity>
-      <Stack mt="10" />
-      <Button label="Enviar" onPress={handleUploadImage} />
+        <Button label="Enviar" onPress={handleUploadImage} />
       <Text style={styles.LabelText}>Fotos já enviadas</Text>
-      <View style={{ display: "flex", flexDirection: "column", gap: "10em" }}>
-        {enviada && <Image source={{ uri: enviada }} style={styles.image} />}
+      <View style={{ display: "flex", flexDirection: "column"}}>
+        <Text>URL da imagem: {enviada}</Text>
         {enviada && <Image source={{ uri: enviada }} style={styles.image} />}
       </View>
     </ScrollView>
