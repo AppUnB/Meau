@@ -49,13 +49,11 @@ export default function App() {
               headerTintColor: '#434343',
             }}
           >
-            {/* Tela de Login visível para não autenticados */}
             <Drawer.Screen
               name="Login"
               component={Login}
               options={{ drawerLabel: 'Login' }}
             />
-            {/* Renderizar as outras telas apenas quando o usuário estiver logado */}
             <Drawer.Screen
               name="Home"
               component={Home}
