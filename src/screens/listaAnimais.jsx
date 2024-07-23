@@ -1,0 +1,125 @@
+/* eslint-disable react/prop-types */
+import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { useState, React, useEffect } from "react";
+import { Image, Text } from "react-native";
+import { listarAnimais } from "../services/animalService";
+import { ScrollView } from "react-native";
+
+export default function ListarAnimais({ navigation }) {
+  const [loading, setLoading] = useState(false);
+  const [animais, setAnimais] = useState([
+    {
+      id: 1,
+      nome: "Pingo",
+      idade: "3 anos",
+      sexo: "macho",
+      tamanho: "pequeno",
+      imageUrl:
+        "https://firebasestorage.googleapis.com/v0/b/meau-d4d5a.appspot.com/o/images%2Fpet%2F1721329205174?alt=media&token=1dde3ced-052a-4a3f-b2a7-b59163c71293",
+      local: "São Paulo",
+    },
+  ]);
+
+  useEffect(() => {
+    setLoading(true);
+    listarAnimais()
+      .then((animais) => {
+        setAnimais(animais);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error getting documents: ", error);
+      });
+  }, []);
+
+  if (loading)
+    return (
+      <View style={styles.homeContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+
+  return (
+    <ScrollView contentContainerStyle={styles.homeContainer}>
+      {animais.map((animal) => (
+        <AnimalCard
+          key={animal.id}
+          animal={animal}
+          onPress={() => navigation.navigate("AnimalDetails", { animal })}
+        />
+      ))}
+    </ScrollView>
+  );
+}
+
+function AnimalCard({ animal }) {
+  function onPress() {
+    console.log("ver mais");
+  }
+
+  return (
+    <View
+      onPress={onPress}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        borderStyle: "solid",
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 10,
+        width: "100%",
+      }}
+    >
+      <View
+        style={{
+          backgroundColor: "yellow",
+          padding: 5,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
+        }}
+      >
+        <Text style={styles.animalName}>
+          {animal.nome}
+          {" - "}
+          {animal.especie}
+        </Text>
+      </View>
+      <Image
+        source={{ uri: animal.imageUrl }}
+        style={styles.animalImage}
+        alt="Foto do animal"
+      />
+      <View style={{ paddingVertical: 8, display: "flex", gap: 8 }}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <Text>{animal.idade}</Text>
+          <Text>{animal.sexo}</Text>
+          <Text>{animal.tamanho}</Text>
+        </View>
+        <Text style={{ marginHorizontal: "auto" }}>{animal.local}</Text>
+      </View>
+    </View>
+  );
+}
+
+export const styles = StyleSheet.create({
+  homeContainer: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    paddingTop: 16,
+    gap: 20,
+  },
+  animalImage: {
+    width: "100%",
+    height: 180,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+  },
+});
