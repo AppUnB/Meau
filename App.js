@@ -21,8 +21,9 @@ import Roboto from "@expo-google-fonts/roboto";
 import { Courgette_400Regular, useFonts } from "@expo-google-fonts/courgette";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import UploadComp from "./src/screens/UploadImage";
+import ListarAnimais from "./src/screens/listaAnimais";
 
 function CustomDrawerContent(props) {
   const { isLoggedIn } = React.useContext(AuthContext);
@@ -31,7 +32,6 @@ function CustomDrawerContent(props) {
   CustomDrawerContent.propTypes = {
     navigation: PropTypes.object.isRequired,
   };
-
 
   const handleLogout = async () => {
     const auth = getAuth();
@@ -102,7 +102,6 @@ export default function App() {
     return null;
   }
 
-
   return (
     <AuthProvider>
       <NavigationContainer>
@@ -123,8 +122,12 @@ export default function App() {
               name="Cadastro do animal"
               component={AnimalRegister}
             />
-            <Drawer.Screen name="Detalhes do Animal" component={AninmalDetails} />
+            <Drawer.Screen
+              name="Detalhes do Animal"
+              component={AninmalDetails}
+            />
             <Drawer.Screen name="Upload de imagem" component={UploadComp} />
+            <Drawer.Screen name="Listar Animais" component={ListarAnimais} />
             {/* Adicione mais telas aqui se necessário */}
           </Drawer.Navigator>
         </NativeBaseProvider>
