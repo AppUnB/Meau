@@ -17,7 +17,7 @@ import Adopt from "./src/screens/adopt";
 import AninmalDetails from "./src/screens/animalDetails";
 import { StyleProvider } from "native-base";
 import { getAuth, signOut } from "firebase/auth";
-import Roboto from "@expo-google-fonts/roboto";
+import { Roboto_400Regular, Roboto_500Medium } from "@expo-google-fonts/roboto";
 import { Courgette_400Regular } from "@expo-google-fonts/courgette";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -89,7 +89,7 @@ const Drawer = createDrawerNavigator();
 export default function App() {
   SplashScreen.preventAutoHideAsync();
   let [loaded, error] = useFonts({
-    ...Roboto,
+    Roboto_400Regular, Roboto_500Medium, 
     Courgette_400Regular,
   });
 

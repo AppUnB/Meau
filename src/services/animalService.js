@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 
 const db = getFirestore();
 
@@ -11,3 +11,8 @@ export function cadastrarAnimal(animal) {
       console.error("Error adding document: ", error);
     });
 }
+
+export function listarAnimais() {
+  return getDocs(collection(db, "animais"));
+}
+

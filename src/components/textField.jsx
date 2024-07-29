@@ -1,6 +1,6 @@
-import { Text, TextInput, StyleSheet, View } from "react-native";
+import React, { TextInput, StyleSheet, View } from "react-native";
 
-export default function Textfield({ onChangeText, secureTextEntry, value, placeholder }) {
+export default function Textfield({ onChangeText, secureTextEntry, value, placeholder, ...props }) {
   return (
     <View>
       <TextInput
@@ -9,6 +9,7 @@ export default function Textfield({ onChangeText, secureTextEntry, value, placeh
         style={styles.input}
         placeholder={placeholder}
         value={value}
+        {...props}
       />
     </View>
   );
