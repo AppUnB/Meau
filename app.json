@@ -21,20 +21,28 @@
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.vhvictor1.myapp"
     },
     "web": {
       "favicon": "./src/assets/images/Meau_Icone.png"
     },
     "plugins": [
       "expo-font",
-    
       [
         "expo-image-picker",
         {
           "photosPermission": "O app precisa de permissão para acessar suas fotos"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5bc71b10-8592-4ff6-b444-e9265a0088dd"
+      }
+    }
   }
 }
