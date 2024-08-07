@@ -4,32 +4,22 @@ import { useState, React, useEffect } from "react";
 import { Image, Text } from "react-native";
 import { listarAnimais } from "../services/animalService";
 import { ScrollView } from "react-native";
+import { Pressable } from "react-native";
 
 export default function ListarAnimais({ navigation }) {
   const [loading, setLoading] = useState(false);
-  const [animais, setAnimais] = useState([
-    {
-      id: 1,
-      nome: "Pingo",
-      idade: "3 anos",
-      sexo: "macho",
-      tamanho: "pequeno",
-      imageUrl:
-        "https://firebasestorage.googleapis.com/v0/b/meau-d4d5a.appspot.com/o/images%2Fpet%2F1721329205174?alt=media&token=1dde3ced-052a-4a3f-b2a7-b59163c71293",
-      local: "São Paulo",
-    },
-  ]);
+  const [animais, setAnimais] = useState([]);
 
   useEffect(() => {
     setLoading(true);
     listarAnimais()
       .then((animais) => {
         setAnimais(animais);
-        setLoading(false);
       })
       .catch((error) => {
         console.error("Error getting documents: ", error);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading)
@@ -45,20 +35,20 @@ export default function ListarAnimais({ navigation }) {
         <AnimalCard
           key={animal.id}
           animal={animal}
-          onPress={() => navigation.navigate("AnimalDetails", { animal })}
+          navigate={navigation.navigate}
         />
       ))}
     </ScrollView>
   );
 }
 
-function AnimalCard({ animal }) {
+function AnimalCard({ animal, navigate }) {
   function onPress() {
-    console.log("ver mais");
+    navigate("Detalhes do Animal", { animal }); // Todo: passar o id do animal
   }
 
   return (
-    <View
+    <Pressable
       onPress={onPress}
       style={{
         display: "flex",
@@ -103,7 +93,7 @@ function AnimalCard({ animal }) {
         </View>
         <Text style={{ marginHorizontal: "auto" }}>{animal.local}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

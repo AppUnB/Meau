@@ -15,6 +15,7 @@ import { Courgette_400Regular } from "@expo-google-fonts/courgette";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import CustomDrawerContent from "./src/components/drawerContent";
+import ListarAnimais from "./src/screens/listaAnimais";
 
 const Drawer = createDrawerNavigator();
 
@@ -83,6 +84,11 @@ export default function App() {
               name="Upload de imagem"
               component={UploadComp}
               options={{ drawerLabel: "Upload de imagem" }}
+            />
+            <Drawer.Screen
+              name="Lista de animais"
+              component={ListarAnimais}
+              options={{ drawerLabel: "Lista de animais" }}
             />
           </Drawer.Navigator>
         </NativeBaseProvider>
