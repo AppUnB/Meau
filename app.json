@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "my-app",
-    "slug": "my-app",
+    "slug": "meau",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/Meau_Icone.png",
@@ -41,8 +41,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "5bc71b10-8592-4ff6-b444-e9265a0088dd"
+        "projectId": "992c0279-203c-479c-af8f-bfbf1e0210c5"
       }
-    }
+    },
+    "owner": "dappmeau"
   }
 }
