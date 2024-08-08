@@ -13,6 +13,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import CustomDrawerContent from "./src/components/drawerContent";
 import ListarAnimais from "./src/screens/listaAnimais";
+import Chat from "./src/screens/chat";
 
 const Drawer = createDrawerNavigator();
 
@@ -71,6 +72,11 @@ export default function App() {
               name="Lista de animais"
               component={ListarAnimais}
               options={{ drawerLabel: "Lista de animais" }}
+            />
+            <Drawer.Screen
+              name="chat"
+              component={Chat}
+              options={{ drawerLabel: "Chat" }}
             />
           </Drawer.Navigator>
         </NativeBaseProvider>
