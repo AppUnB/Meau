@@ -1,8 +1,12 @@
-import React from 'react';
-import { DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
-import { getAuth, signOut } from 'firebase/auth';
-import PropTypes from 'prop-types';
-import { AuthContext } from './authProvider';
+import React from "react";
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from "@react-navigation/drawer";
+import { getAuth, signOut } from "firebase/auth";
+import PropTypes from "prop-types";
+import { AuthContext } from "./authProvider";
 
 function CustomDrawerContent(props) {
   const { isLoggedIn } = React.useContext(AuthContext);
@@ -16,7 +20,7 @@ function CustomDrawerContent(props) {
     const auth = getAuth();
     try {
       await signOut(auth).finally(() => {
-        navigation.navigate('Login');
+        navigation.navigate("Login");
       });
     } catch (error) {
       console.error(error);
@@ -31,10 +35,16 @@ function CustomDrawerContent(props) {
           <DrawerItem label="Logout" onPress={handleLogout} />
         </>
       ) : (
-        <DrawerItem
-          label="Login"
-          onPress={() => props.navigation.navigate('Login')}
-        />
+        <>
+          <DrawerItem
+            label="Login"
+            onPress={() => props.navigation.navigate("Login")}
+          />
+          <DrawerItem
+            label="Cadastro"
+            onPress={() => props.navigation.navigate("Cadastro")}
+          />
+        </>
       )}
     </DrawerContentScrollView>
   );

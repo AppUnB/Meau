@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { register } from "../services/auth";
+import React from "react";
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ const Register = ({ navigation }) => {
       setLoading(false);
       return;
     }
-    navigation.navigate("Home");
+    navigation.navigate("Lista de animais");
   }
 
   return (

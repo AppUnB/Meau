@@ -34,6 +34,7 @@
     "native-base": "^3.4.28",
     "normalize-css-color": "^1.0.2",
     "npx": "^3.0.0",
+    "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.52.1",
