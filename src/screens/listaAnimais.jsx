@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, ScrollView, Pressable, Image, Text } from "react-native";
 import { useState, React, useEffect } from "react";
-import { Image, Text } from "react-native";
 import { listarAnimais } from "../services/animalService";
-import { ScrollView } from "react-native";
-import { Pressable } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function ListarAnimais({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -43,6 +41,11 @@ export default function ListarAnimais({ navigation }) {
 }
 
 function AnimalCard({ animal, navigate }) {
+  const [favorited, setFavorited] = useState(false);
+
+  function toggleFavorite() {
+    setFavorited(!favorited);
+  }
   function onPress() {
     navigate("Detalhes do Animal", { animal }); // Todo: passar o id do animal
   }
@@ -53,33 +56,49 @@ function AnimalCard({ animal, navigate }) {
       style={{
         display: "flex",
         flexDirection: "column",
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "black",
         borderRadius: 10,
         width: "100%",
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
       }}
     >
       <View
         style={{
-          backgroundColor: "yellow",
+          backgroundColor: "#ffe29b",
           padding: 5,
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <Text style={styles.animalName}>
-          {animal.nome}
-          {" - "}
-          {animal.especie}
-        </Text>
+        <Text style={{ padding: 5 }}>{animal.nome}</Text>
+        <Pressable onPress={toggleFavorite} style={styles.heartIcon}>
+          <Icon
+            name={favorited ? "heart" : "heart-o"}
+            size={20}
+            color={favorited ? "#FF0000" : "#000"}
+          />
+        </Pressable>
       </View>
       <Image
         source={{ uri: animal.imageUrl }}
         style={styles.animalImage}
+        resizeMode="contain"
         alt="Foto do animal"
       />
-      <View style={{ paddingVertical: 8, display: "flex", gap: 8 }}>
+      <View
+        style={{
+          paddingVertical: 8,
+          display: "flex",
+          gap: 8,
+        }}
+      >
         <View
           style={{
             display: "flex",
@@ -87,11 +106,48 @@ function AnimalCard({ animal, navigate }) {
             justifyContent: "space-evenly",
           }}
         >
-          <Text>{animal.idade}</Text>
-          <Text>{animal.sexo}</Text>
-          <Text>{animal.tamanho}</Text>
+          <Text
+            style={{
+              fontFamily: "Roboto",
+              fontWeight: "regular",
+              fontSize: 12,
+              color: "#434343",
+            }}
+          >
+            {animal.porte.toUpperCase()}
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Roboto",
+              fontWeight: "regular",
+              fontSize: 12,
+              color: "#434343",
+            }}
+          >
+            {animal.sexo.toUpperCase()}
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Roboto",
+              fontWeight: "regular",
+              fontSize: 12,
+              color: "#434343",
+            }}
+          >
+            {animal.idade.toUpperCase()}
+          </Text>
         </View>
-        <Text style={{ marginHorizontal: "auto" }}>{animal.local}</Text>
+        <Text
+          style={{
+            fontFamily: "Roboto",
+            fontWeight: "regular",
+            fontSize: 12,
+            marginHorizontal: "auto",
+            color: "#434343",
+          }}
+        >
+          {animal.location.toUpperCase()}
+        </Text>
       </View>
     </Pressable>
   );
@@ -109,7 +165,7 @@ export const styles = StyleSheet.create({
   animalImage: {
     width: "100%",
     height: 180,
-    borderTopWidth: 1,
     borderBottomWidth: 1,
+    borderBottomColor: "#9c999a",
   },
 });

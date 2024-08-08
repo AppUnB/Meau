@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, Pressable, StyleSheet, View } from "react-native";
+import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 export default function Button({
@@ -21,6 +22,14 @@ export default function Button({
     </Pressable>
   );
 }
+
+Button.propTypes = {
+  label: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  backgroundColor: PropTypes.string,
+  textColor: PropTypes.string,
+  Icon: PropTypes.elementType,
+};
 
 const styles = StyleSheet.create({
   container: {

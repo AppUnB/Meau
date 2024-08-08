@@ -1,4 +1,5 @@
-import { Text, TextInput, StyleSheet, View } from "react-native";
+import { TextInput, StyleSheet, View } from "react-native";
+import React from "react";
 
 export default function Textfield({ onChangeText, secureTextEntry, value, placeholder }) {
   return (

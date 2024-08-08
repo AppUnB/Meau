@@ -4,11 +4,8 @@ import { AuthProvider } from "./src/components/authProvider";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Login from "./src/screens/login";
 import Register from "./src/screens/register";
-import Home from "./src/screens/home";
 import AnimalRegister from "./src/screens/registerAnimal";
-import Adopt from "./src/screens/adopt";
 import AnimalDetails from "./src/screens/animalDetails";
-import UploadComp from "./src/screens/UploadImage";
 import { NativeBaseProvider } from "native-base";
 import { Roboto_400Regular, useFonts } from "@expo-google-fonts/roboto";
 import { Courgette_400Regular } from "@expo-google-fonts/courgette";
@@ -56,16 +53,6 @@ export default function App() {
               options={{ drawerLabel: "Login" }}
             />
             <Drawer.Screen
-              name="Home"
-              component={Home}
-              options={{ drawerLabel: "Home" }}
-            />
-            <Drawer.Screen
-              name="Adopt"
-              component={Adopt}
-              options={{ drawerLabel: "Adopt" }}
-            />
-            <Drawer.Screen
               name="Cadastro"
               component={Register}
               options={{ drawerLabel: "Cadastro" }}
@@ -79,11 +66,6 @@ export default function App() {
               name="Detalhes do Animal"
               component={AnimalDetails}
               options={{ drawerLabel: "Detalhes do Animal" }}
-            />
-            <Drawer.Screen
-              name="Upload de imagem"
-              component={UploadComp}
-              options={{ drawerLabel: "Upload de imagem" }}
             />
             <Drawer.Screen
               name="Lista de animais"
