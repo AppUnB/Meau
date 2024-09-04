@@ -38,4 +38,6 @@ yarn-error.*
 #workspace
 *.code-workspace
 
-.env
+# misc
+src/screens/myTestCompnt.jsx
+.env.me
