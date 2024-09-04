@@ -9,9 +9,23 @@ function login(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
-function register(email, password) {
+async function register(email, password) {
   const auth = getAuth();
-  return createUserWithEmailAndPassword(auth, email, password);
+  user = await createUserWithEmailAndPassword(auth, email, password);
+  if (!user) {
+    return null;
+  }
+  // create a register in users collection
+  const db = getFirestore();
+
+  const docRef = doc(collection(db, "users"));
+  setDoc(docRef, {
+    id: user.uid,
+    email: email,
+    nome: user.email.split("@")[0],
+  }).catch((error) => {
+    console.error("Error adding creating user: ", error);
+  });
 }
 
 export { login, register };

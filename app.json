@@ -25,7 +25,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.vhvictor1.myapp"
+      "package": "com.dappmeau.meau",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/images/Meau_Icone.png"
