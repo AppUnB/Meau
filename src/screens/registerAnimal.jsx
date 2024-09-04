@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
-import { Stack } from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import { RadioButton, Checkbox } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
@@ -155,7 +154,7 @@ function AnimalRegister() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <>
-                <div
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -175,8 +174,8 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Brincalhão</Text>
-                </div>
-                <div
+                </View>
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -194,8 +193,8 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Tímido</Text>
-                </div>
-                <div
+                </View>
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -213,7 +212,7 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Calmo</Text>
-                </div>
+                </View>
               </>
             )}
             name="temperamento"
@@ -226,7 +225,7 @@ function AnimalRegister() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <>
-                <div
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -246,8 +245,8 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Vacinado</Text>
-                </div>
-                <div
+                </View>
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -267,8 +266,8 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Vermifugado</Text>
-                </div>
-                <div
+                </View>
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -288,8 +287,8 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Castrado</Text>
-                </div>
-                <div
+                </View>
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -307,7 +306,7 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Doente</Text>
-                </div>
+                </View>
               </>
             )}
             name="saude"
@@ -324,7 +323,7 @@ function AnimalRegister() {
             control={control}
             render={({ field: { onChange, value } }) => (
               <>
-                <div
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -344,8 +343,8 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Alimento</Text>
-                </div>
-                <div
+                </View>
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -367,8 +366,8 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Auxílio financeiro</Text>
-                </div>
-                <div
+                </View>
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -388,12 +387,12 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Medicamento</Text>
-                </div>
+                </View>
                 <Textfield
                   placeholder="Nome do medicamento"
                   onChangeText={(text) => setValue("nomeMedicamento", text)}
                 />
-                <div
+                <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -411,7 +410,7 @@ function AnimalRegister() {
                     }}
                   />
                   <Text>Objetos</Text>
-                </div>
+                </View>
                 <Textfield
                   placeholder="Especifique o(s) objeto(s)"
                   onChangeText={(text) => setValue("objetos", text)}
@@ -422,19 +421,15 @@ function AnimalRegister() {
             defaultValue={[]}
           />
         </View>
-        <Text style={styles.LabelText}>SOBRE O ANIMAL</Text>
         <Textfield
-          placeholder="Compartilhe a história do animal"
+          placeholder="Descrição adicional"
           onChangeText={(text) => setValue("sobre", text)}
         />
-        <Stack mt="10" />
+        <Button title="Cadastrar Animal" onPress={handleSubmit(onSubmit)} />
       </View>
-      <Button label="CADASTRAR" onPress={handleSubmit(onSubmit)} />
     </ScrollView>
   );
 }
-
-export default AnimalRegister;
 
 const styles = StyleSheet.create({
   icon: {
@@ -487,3 +482,5 @@ const styles = StyleSheet.create({
     gap: 10,
   },
 });
+
+export default AnimalRegister;

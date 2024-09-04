@@ -49,24 +49,9 @@ export default function App() {
             }}
           >
             <Drawer.Screen
-              name="Login"
-              component={Login}
-              options={{ drawerLabel: "Login" }}
-            />
-            <Drawer.Screen
-              name="Cadastro"
-              component={Register}
-              options={{ drawerLabel: "Cadastro" }}
-            />
-            <Drawer.Screen
               name="Cadastro do animal"
               component={AnimalRegister}
               options={{ drawerLabel: "Cadastro do animal" }}
-            />
-            <Drawer.Screen
-              name="Detalhes do Animal"
-              component={AnimalDetails}
-              options={{ drawerLabel: "Detalhes do Animal" }}
             />
             <Drawer.Screen
               name="Lista de animais"
@@ -77,6 +62,21 @@ export default function App() {
               name="chat"
               component={Chat}
               options={{ drawerLabel: "Chat" }}
+            />
+            <Drawer.Screen
+              name="Detalhes do Animal"
+              component={AnimalDetails}
+              options={{ drawerLabel: () => null, title: null }}
+            />
+            <Drawer.Screen
+              name="Login"
+              component={Login}
+              options={{ drawerLabel: "" }}
+            />
+            <Drawer.Screen
+              name="Cadastro"
+              component={Register}
+              options={{ drawerLabel: "" }}
             />
           </Drawer.Navigator>
         </NativeBaseProvider>

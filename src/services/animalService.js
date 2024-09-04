@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore();
 
@@ -16,5 +16,17 @@ export async function listarAnimais() {
   const snapshot = await getDocs(collection(db, "animais")).catch((error) => {
     console.error("Error getting documents: ", error);
   });
-  return snapshot.docs.map((doc) => doc.data());
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
+export async function getAnimalById(animalId) {
+  const animalDoc = doc(db, "animais", animalId);
+  const snapshot = await getDoc(animalDoc);
+
+  if (snapshot.exists()) {
+    return { id: snapshot.id, ...snapshot.data() };
+  } else {
+    console.error("No such document!");
+    return null;
+  }
 }

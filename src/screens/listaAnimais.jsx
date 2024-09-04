@@ -1,5 +1,13 @@
 /* eslint-disable react/prop-types */
-import { View, StyleSheet, ActivityIndicator, ScrollView, Pressable, Image, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
+  Pressable,
+  Image,
+  Text,
+} from "react-native";
 import { useState, React, useEffect } from "react";
 import { listarAnimais } from "../services/animalService";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -46,8 +54,9 @@ function AnimalCard({ animal, navigate }) {
   function toggleFavorite() {
     setFavorited(!favorited);
   }
+
   function onPress() {
-    navigate("Detalhes do Animal", { animal }); // Todo: passar o id do animal
+    navigate("Detalhes do Animal", { id: animal.id });
   }
 
   return (
