@@ -3,7 +3,7 @@ import * as Device from "expo-device";
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-export default function saveUserNotificationToken() {
+export function saveUserNotificationToken() {
   if (Device.isDevice) {
     Notifications.getPermissionsAsync()
       .then((statusObj) => {
@@ -40,4 +40,21 @@ export default function saveUserNotificationToken() {
         return null;
       });
   }
+}
+
+export function enviarNotificacao(token, title, message) {
+  console.log(token, title, message);
+  fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Accept-encoding": "gzip, deflate",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      to: token,
+      title: title,
+      body: message,
+    }),
+  });
 }

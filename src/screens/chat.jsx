@@ -10,7 +10,8 @@ import {
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
-import { auth } from "../services/firebaseUtils";
+import { auth, getAuth } from "../services/firebaseUtils";
+import { enviarNotificacao } from "../services/notificationService";
 
 export default function Chat({ route, navigation }) {
   const { idChat = "testRoom" } = route.params;
@@ -40,6 +41,28 @@ export default function Chat({ route, navigation }) {
     return () => unsubscribe();
   }, []);
 
+  async function handleEnviarNotificacao(title, message) {
+    console.log("enviando notificação");
+    const auth = getAuth();
+
+    const db = getFirestore();
+    const chatRef = doc(db, "chatRooms", idChat);
+    const chat = await getDoc(chatRef);
+    const data = chat.data();
+
+    const donoRef = data.idDono;
+    const dono = await getDoc(donoRef);
+    if (dono.id !== auth.currentUser.uid) {
+      enviarNotificacao(dono.data().pushToken, title, message);
+    }
+
+    const interessadoRef = data.idInteressado;
+    const interessado = await getDoc(interessadoRef);
+    if (interessado.id !== auth.currentUser.uid) {
+      enviarNotificacao(interessado.data().pushToken, title, message);
+    }
+  }
+
   function enviarMensagem() {
     const db = getFirestore();
 
@@ -49,6 +72,9 @@ export default function Chat({ route, navigation }) {
       timestamp: new Date(),
       author: doc(db, "/users/" + auth.currentUser.uid),
     })
+      .then(() => {
+        handleEnviarNotificacao("Você recebeu uma mensagem", message);
+      })
       .catch((error) => {
         console.error("Error adding document: ", error);
       })
