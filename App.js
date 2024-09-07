@@ -15,6 +15,7 @@ import CustomDrawerContent from "./src/components/drawerContent";
 import ListarAnimais from "./src/screens/listaAnimais";
 import Chat from "./src/screens/chat";
 import NotificationProvider from "./src/components/NotificationProvider";
+import ListarChats from "./src/screens/ListarChats";
 
 const Drawer = createDrawerNavigator();
 
@@ -79,6 +80,11 @@ export default function App() {
                 name="chat"
                 component={Chat}
                 options={{ drawerLabel: "Chat" }}
+              />
+              <Drawer.Screen
+                name="listarChats"
+                component={ListarChats}
+                options={{ drawerLabel: "Conversas" }}
               />
             </Drawer.Navigator>
           </NativeBaseProvider>
