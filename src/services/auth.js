@@ -1,30 +1,37 @@
+import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "./firebaseUtils";
+import saveUserNotificationToken from "./notificationService";
 
-function login(email, password) {
+async function login(email, password) {
   const auth = getAuth();
-  return signInWithEmailAndPassword(auth, email, password);
+  const user = await signInWithEmailAndPassword(auth, email, password);
+
+  saveUserNotificationToken();
+  return user;
 }
 
 async function register(email, password) {
   const auth = getAuth();
-  user = await createUserWithEmailAndPassword(auth, email, password);
-  if (!user) {
-    return null;
+  authData = await createUserWithEmailAndPassword(auth, email, password);
+  if (!authData) {
+    throw new Error("Erro ao criar usuário");
   }
   // create a register in users collection
   const db = getFirestore();
 
-  const docRef = doc(collection(db, "users"));
-  setDoc(docRef, {
-    id: user.uid,
+  const docRef = doc(collection(db, "users"), authData.user.uid);
+
+  const payload = {
     email: email,
-    nome: user.email.split("@")[0],
-  }).catch((error) => {
-    console.error("Error adding creating user: ", error);
+    nome: email.split("@")[0],
+  };
+
+  setDoc(docRef, payload).then(() => {
+    saveUserNotificationToken();
   });
 }
 
