@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   getFirestore,
   collection,
-  onSnapshot,
   setDoc,
   doc,
+  onSnapshot,
   getDoc,
 } from "firebase/firestore";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
@@ -12,17 +12,18 @@ import Textfield from "../components/textField";
 import Button from "../components/button";
 import { auth } from "../services/firebaseUtils";
 
-export default function Chat({ navigation }) {
+export default function Chat({ route, navigation }) {
+  const { idChat = "testRoom" } = route.params;
+
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const chatId = "testRoom";
 
   useEffect(() => {
     const db = getFirestore();
     setMessages([]);
 
     const unsubscribe = onSnapshot(
-      collection(db, "chatRooms/" + chatId + "/messages"),
+      collection(db, "chatRooms/" + idChat + "/messages"),
       (snapshot) => {
         snapshot.docChanges().forEach(async (change) => {
           if (change.type === "added") {
@@ -42,7 +43,7 @@ export default function Chat({ navigation }) {
   function enviarMensagem() {
     const db = getFirestore();
 
-    const docRef = doc(collection(db, "chatRooms/" + chatId + "/messages"));
+    const docRef = doc(collection(db, "chatRooms/" + idChat + "/messages"));
     setDoc(docRef, {
       content: message,
       timestamp: new Date(),
@@ -58,6 +59,9 @@ export default function Chat({ navigation }) {
 
   return (
     <View style={{ minHeight: "90%" }}>
+      <Text
+        style={{ textAlign: "center", fontSize: 24, marginBottom: 16 }}
+      ></Text>
       <ScrollView
         style={{
           display: "flex",
