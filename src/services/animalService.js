@@ -1,4 +1,14 @@
-import { getFirestore, collection, query, where, addDoc, getDocs, doc, getDoc, deleteDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  addDoc,
+  getDocs,
+  doc,
+  getDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const db = getFirestore();
@@ -8,7 +18,7 @@ export function cadastrarAnimal(animal) {
   const db = getFirestore();
   const userRef = doc(db, "users", auth.currentUser.uid);
 
-  return addDoc(collection(db, "animais"), {...animal, idDono: userRef})
+  return addDoc(collection(db, "animais"), { ...animal, idDono: userRef })
     .then((docRef) => {
       console.log("Document written with ID: ", docRef.id);
     })
@@ -56,7 +66,10 @@ export async function listarAnimaisDoUsuario() {
   }
 
   try {
-    const q = query(collection(db, "animais"), where("idDono", "==", doc(db, "users", user.uid)));
+    const q = query(
+      collection(db, "animais"),
+      where("idDono", "==", doc(db, "users", user.uid))
+    );
     const snapshot = await getDocs(q);
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   } catch (error) {

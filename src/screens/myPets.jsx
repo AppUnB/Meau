@@ -25,7 +25,6 @@ const MyPets = () => {
     async function fetchAnimals() {
       try {
         const animalData = await listarAnimaisDoUsuario();
-        console.log(animalData);
         if (animalData) {
           setAnimais(animalData);
         } else {
@@ -81,7 +80,7 @@ function AnimalCard({ animal, navigate }) {
             await deletarAnimal(animal.id);
             navigation.reset({
               index: 0,
-              routes: [{ name: "Lista de animais" }],
+              routes: [{ name: "Meus animais" }],
             });
           } catch (error) {
             Alert.alert(
