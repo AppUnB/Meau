@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   Image,
@@ -8,22 +9,39 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   View,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { getAnimalById } from "../services/animalService";
+import { useNavigation } from "@react-navigation/native";
+import { getAnimalById, deletarAnimal } from "../services/animalService";
+import { getAuth } from "firebase/auth";
 
 const AnimalDetails = ({ route }) => {
+  const auth = getAuth();
   const [animal, setAnimal] = useState(null);
+  const navigation = useNavigation();
 
   const { id } = route.params;
 
   useEffect(() => {
     async function fetchAnimal() {
       const animalData = await getAnimalById(id);
+
       if (animalData) {
-        setAnimal(animalData);
+        const idDonoRef = animalData.idDono;
+        const donoDoc = await getDoc(idDonoRef);
+
+        if (donoDoc.exists()) {
+          setAnimal({
+            ...animalData,
+            idDonoReal: idDonoRef.id,
+          });
+        } else {
+          console.error("Documento do dono não encontrado");
+        }
       }
     }
+
     fetchAnimal();
   }, [id]);
 
@@ -35,6 +53,32 @@ const AnimalDetails = ({ route }) => {
     );
   }
 
+  const handleDelete = async () => {
+    Alert.alert("Confirmação", "Tem certeza que deseja remover este pet?", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Sim",
+        onPress: async () => {
+          try {
+            await deletarAnimal(id);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Lista de animais" }],
+            });
+          } catch (error) {
+            Alert.alert(
+              "Erro",
+              "Não foi possível remover o pet. Tente novamente."
+            );
+          }
+        },
+      },
+    ]);
+  };
+
   const renderDetail = (label, value) => (
     <View style={styles.detailContainer}>
       <Text style={styles.label}>{label}</Text>
@@ -42,23 +86,16 @@ const AnimalDetails = ({ route }) => {
     </View>
   );
 
-  console.log(animal);
   return (
     <>
       <View style={styles.banner}>
         <TouchableOpacity
           style={styles.iconButton}
-          onPress={() => console.log("Voltar")}
+          onPress={() => navigation.navigate("Lista de animais")}
         >
           <Icon name="arrow-back" size={24} color="#434343" />
         </TouchableOpacity>
         <Text style={styles.bannerText}>{animal.nome}</Text>
-        <TouchableOpacity
-          style={styles.iconButton}
-          onPress={() => console.log("Compartilhando")}
-        >
-          <Icon name="share" size={24} color="#434343" />
-        </TouchableOpacity>
       </View>
       <ScrollView>
         <View style={styles.imageContainer}>
@@ -68,19 +105,12 @@ const AnimalDetails = ({ route }) => {
             resizeMode="center"
           />
         </View>
-        <TouchableOpacity
-          style={styles.floatingButton}
-          onPress={() => console.log("Editando")}
-        >
-          <Icon name="edit" size={24} color="#434343" />
-        </TouchableOpacity>
         <Text style={styles.petName}>{animal.petName}</Text>
         <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
           {renderDetail("Sexo", animal.sexo)}
           {renderDetail("Porte", animal.porte)}
           {renderDetail("Idade", animal.idade)}
         </View>
-        {renderDetail("Localização", animal.location)}
         <View style={styles.divider} />
         <View
           style={{
@@ -117,17 +147,28 @@ const AnimalDetails = ({ route }) => {
         <View style={styles.divider} />
         {renderDetail("Temperamento", animal.temperamento.join(", "))}
         <View style={styles.divider} />
-        {renderDetail(` ${animal.nome} Precisa de`, animal.necessidade)}
+        {renderDetail(
+          ` ${animal.nome} Precisa de`,
+          animal.necessidades.join(", ")
+        )}
         <View style={styles.divider} />
-        {renderDetail(`Mais sobre ${animal.nome}`, animal.about)}
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, { marginRight: 16 }]}>
-            <Text style={styles.buttonText}>Ver interessados</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Remover pet</Text>
-          </TouchableOpacity>
-        </View>
+        {renderDetail(`Mais sobre ${animal.nome}`, animal.sobre)}
+        {auth.currentUser.uid === animal.idDonoReal ? (
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={[styles.button, { marginRight: 16 }]}>
+              <Text style={styles.buttonText}>Ver interessados</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleDelete}>
+              <Text style={styles.buttonText}>Remover pet</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={[styles.button, { marginRight: 16 }]}>
+              <Text style={styles.buttonText}>Tenho interesse</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
     </>
   );
@@ -146,7 +187,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#cfe9e5", // Cor de fundo #88c9bf
     flexDirection: "row", // Alinha os itens horizontalmente
     padding: 16, // Espaço à esquerda ajustado para 16dp
-    justifyContent: "space-between", // Espaçamento entre os itens
     alignItems: "center", // Centraliza os itens verticalmente no banner
   },
   bannerText: {
@@ -155,10 +195,9 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto_500Medium", // Fonte Roboto Medium
     textAlign: "left",
     alignContent: "center",
+    marginHorizontal: "auto",
   },
   iconButton: {
-    // Para um limite circular, use borderRadius com metade do tamanho (altura ou largura)
-    // Para um limite quadrado, ajuste o borderRadius conforme desejado ou remova esta linha
     borderRadius: 15, // Ajuste este valor conforme necessário para circular ou quadrado
     width: 30, // Ajuste conforme necessário
     height: 30, // Ajuste conforme necessário
@@ -215,6 +254,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     marginVertical: 28,
+    marginHorizontal: "auto",
   },
   buttonText: {
     textTransform: "uppercase", // Transforma o texto em maiúsculas

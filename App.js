@@ -16,6 +16,7 @@ import ListarAnimais from "./src/screens/listaAnimais";
 import Chat from "./src/screens/chat";
 import NotificationProvider from "./src/components/NotificationProvider";
 import ListarChats from "./src/screens/ListarChats";
+import MyPets from "./src/screens/myPets";
 
 const Drawer = createDrawerNavigator();
 
@@ -85,6 +86,11 @@ export default function App() {
                 name="listarChats"
                 component={ListarChats}
                 options={{ drawerLabel: "Conversas" }}
+              />
+              <Drawer.Screen
+                name="Meus animais"
+                component={MyPets}
+                options={{ drawerLabel: "Meus animais" }}
               />
             </Drawer.Navigator>
           </NativeBaseProvider>

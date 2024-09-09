@@ -14,9 +14,11 @@ import { RadioButton, Checkbox } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { cadastrarAnimal } from "../services/animalService";
 import { uploadImage } from "../services/imageUpload.service";
+import { useNavigation } from "@react-navigation/native";
 
 function AnimalRegister() {
   const { register, setValue, handleSubmit, watch, control } = useForm();
+  const navigation = useNavigation();
 
   useEffect(() => {
     register("nome");
@@ -43,13 +45,23 @@ function AnimalRegister() {
       const path = "images/pet/" + new Date().getTime();
       uploadImage(image, path).then((url) => {
         setValue("imageUrl", url);
+        console.log(url);
       });
     }
   };
 
   function onSubmit(data) {
-    console.log(data);
-    cadastrarAnimal(data);
+    console.log("Dados antes do cadastro:", data);
+    cadastrarAnimal(data)
+      .then(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Lista de animais" }],
+        });
+      })
+      .catch((error) => {
+        console.error("Erro ao cadastrar animal:", error);
+      });
   }
 
   return (
@@ -313,10 +325,6 @@ function AnimalRegister() {
             defaultValue={[]}
           />
         </View>
-        <Textfield
-          placeholder="Doenças do animal"
-          onChangeText={(text) => setValue("doencas", text)}
-        />
         <Text style={styles.LabelText}>NECESSIDADES DO ANIMAL</Text>
         <View style={styles.checkboxContainer}>
           <Controller
@@ -388,10 +396,6 @@ function AnimalRegister() {
                   />
                   <Text>Medicamento</Text>
                 </View>
-                <Textfield
-                  placeholder="Nome do medicamento"
-                  onChangeText={(text) => setValue("nomeMedicamento", text)}
-                />
                 <View
                   style={{
                     display: "flex",
@@ -411,10 +415,6 @@ function AnimalRegister() {
                   />
                   <Text>Objetos</Text>
                 </View>
-                <Textfield
-                  placeholder="Especifique o(s) objeto(s)"
-                  onChangeText={(text) => setValue("objetos", text)}
-                />
               </>
             )}
             name="necessidades"
@@ -425,7 +425,7 @@ function AnimalRegister() {
           placeholder="Descrição adicional"
           onChangeText={(text) => setValue("sobre", text)}
         />
-        <Button title="Cadastrar Animal" onPress={handleSubmit(onSubmit)} />
+        <Button label="Cadastrar Animal" onPress={handleSubmit(onSubmit)} />
       </View>
     </ScrollView>
   );

@@ -1,39 +1,51 @@
 /* eslint-disable react/prop-types */
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  ScrollView,
-  Pressable,
   Image,
+  ScrollView,
+  StyleSheet,
   Text,
+  Pressable,
+  ActivityIndicator,
+  View,
+  Alert,
 } from "react-native";
-import { useState, React, useEffect } from "react";
-import { listarAnimais } from "../services/animalService";
+import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import {
+  deletarAnimal,
+  listarAnimaisDoUsuario,
+} from "../services/animalService";
 
-export default function ListarAnimais({ navigation }) {
-  const [loading, setLoading] = useState(false);
+const MyPets = () => {
   const [animais, setAnimais] = useState([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
-    setLoading(true);
-    listarAnimais()
-      .then((animais) => {
-        setAnimais(animais);
-      })
-      .catch((error) => {
-        console.error("Error getting documents: ", error);
-      })
-      .finally(() => setLoading(false));
+    async function fetchAnimals() {
+      try {
+        const animalData = await listarAnimaisDoUsuario();
+        console.log(animalData);
+        if (animalData) {
+          setAnimais(animalData);
+        } else {
+          console.error("Nenhum animal encontrado");
+        }
+      } catch (error) {
+        console.error("Erro ao listar os animais do usuário:", error);
+      }
+    }
+
+    fetchAnimals();
   }, []);
 
-  if (loading)
+  if (!animais) {
     return (
-      <View style={styles.homeContainer}>
+      <View>
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.homeContainer}>
@@ -46,18 +58,41 @@ export default function ListarAnimais({ navigation }) {
       ))}
     </ScrollView>
   );
-}
+};
+
+export default MyPets;
 
 function AnimalCard({ animal, navigate }) {
-  const [favorited, setFavorited] = useState(false);
-
-  function toggleFavorite() {
-    setFavorited(!favorited);
-  }
-
+  const navigation = useNavigation();
   function onPress() {
     navigate("Detalhes do Animal", { id: animal.id });
   }
+
+  const handleDelete = async () => {
+    Alert.alert("Confirmação", "Tem certeza que deseja remover este pet?", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Sim",
+        onPress: async () => {
+          try {
+            await deletarAnimal(animal.id);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Lista de animais" }],
+            });
+          } catch (error) {
+            Alert.alert(
+              "Erro",
+              "Não foi possível remover o pet. Tente novamente."
+            );
+          }
+        },
+      },
+    ]);
+  };
 
   return (
     <Pressable
@@ -87,12 +122,8 @@ function AnimalCard({ animal, navigate }) {
         }}
       >
         <Text style={{ padding: 5 }}>{animal.nome}</Text>
-        <Pressable onPress={toggleFavorite} style={styles.heartIcon}>
-          <Icon
-            name={favorited ? "heart" : "heart-o"}
-            size={20}
-            color={favorited ? "#FF0000" : "#000"}
-          />
+        <Pressable onPress={handleDelete} style={styles.heartIcon}>
+          <Icon name="trash" size={20} color="#000" />
         </Pressable>
       </View>
       <Image
