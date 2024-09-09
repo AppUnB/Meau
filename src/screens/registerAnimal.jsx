@@ -11,16 +11,15 @@ import Textfield from "../components/textField";
 import Button from "../components/button";
 
 import * as ImagePicker from "expo-image-picker";
-import { Checkbox, RadioButton } from "react-native-paper";
+import { RadioButton, Checkbox } from "react-native-paper";
 import { useForm, Controller } from "react-hook-form";
 import { cadastrarAnimal } from "../services/animalService";
 import { uploadImage } from "../services/imageUpload.service";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-function AnimalRegister() {
+function AnimalRegister () {
 
-  const { unregister, setValue, handleSubmit, watch, control } = useForm(
-  );
+  const { register, unregister, setValue, handleSubmit, watch, control } = useForm();
 
   const sick = watch("saude")?.includes('doente');
   const postAdopt = watch("exigenciasAdocao")?.includes('acompanhamentoPos');
@@ -30,6 +29,12 @@ function AnimalRegister() {
     }
     if (!postAdopt) {
       unregister(["acompanhamentoPos"]);
+    register("porte");
+    register("idade");
+    register("temperamento");
+    register("saude");
+    register("necessidades");
+    register("sobre");
     }
   }, [sick, postAdopt]);
 
@@ -40,8 +45,7 @@ function AnimalRegister() {
       aspect: [3, 3],
       quality: 1,
     });
-    console.log(result);
-    if (!result.cancelled) {
+    if (!result.canceled) {
       const image = result.assets[0].uri;
       const path = "images/pet/" + new Date().getTime();
       uploadImage(image, path).then((url) => {
@@ -273,7 +277,6 @@ function AnimalRegister() {
           name="exigenciasAdocao"
           defaultValue={[]}
           render={({ field: { onChange, value } }) =>
-            <>
               <View style={styles.exigenciasContainer}>
                 <Checkbox.Item
                   style={styles.exigenciasCheckbox}
@@ -332,7 +335,6 @@ function AnimalRegister() {
                   />
                 )}
               </View>
-            </>
           }
         />
 
@@ -348,7 +350,7 @@ function AnimalRegister() {
 
     </ScrollView >
   );
-};
+}
 
 export default AnimalRegister;
 

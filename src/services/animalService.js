@@ -12,7 +12,9 @@ export function cadastrarAnimal(animal) {
     });
 }
 
-export function listarAnimais() {
-  return getDocs(collection(db, "animais"));
+export async function listarAnimais() {
+  const snapshot = await getDocs(collection(db, "animais")).catch((error) => {
+    console.error("Error getting documents: ", error);
+  });
+  return snapshot.docs.map((doc) => doc.data());
 }
-

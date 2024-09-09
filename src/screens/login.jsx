@@ -1,9 +1,11 @@
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Alert } from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { faSquareFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useState } from "react";
 import { login } from "../services/auth";
+import React from "react";
+
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,16 +15,21 @@ const Login = ({ navigation }) => {
     if (loading || !email || !password) return;
 
     setLoading(true);
-    const user = await login(email, password);
-    if (!user) {
-      setLoading(false);
-      return;
-    }
     try {
-      console.log("tentando redirect");
-      navigation.navigate("Home");
+      const user = await login(email, password);
+      if (!user) {
+        Alert.alert("Erro", "Falha no login. Verifique suas credenciais.");
+      } else {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Lista de animais" }],
+        });
+      }
     } catch (error) {
       console.log(error);
+      Alert.alert("Erro", "Ocorreu um erro. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -45,6 +52,10 @@ const Login = ({ navigation }) => {
         />
       </View>
       <Button label="ENTRAR" onPress={handleLogin} />
+      <Button
+        label="CADASTRAR-SE"
+        onPress={() => navigation.navigate("Cadastro")}
+      />
       <View style={styles.platformsContainer}>
         <Button
           label="ENTRAR COM O FACEBOOK"

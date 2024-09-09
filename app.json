@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "my-app",
-    "slug": "my-app",
+    "slug": "meau",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/Meau_Icone.png",
@@ -15,26 +15,37 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dappmeau.meau"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.dappmeau.meau",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/images/Meau_Icone.png"
     },
     "plugins": [
       "expo-font",
-    
       [
         "expo-image-picker",
         {
           "photosPermission": "O app precisa de permissão para acessar suas fotos"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "992c0279-203c-479c-af8f-bfbf1e0210c5"
+      }
+    },
+    "owner": "dappmeau"
   }
 }

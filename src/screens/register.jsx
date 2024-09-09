@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { register } from "../services/auth";
+import React from "react";
+import saveUserNotificationToken from "../services/notificationService";
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -16,12 +18,14 @@ const Register = ({ navigation }) => {
     if (loading || !email || !password) return;
 
     setLoading(true);
-    const user = await register(email, password);
-    if (!user) {
-      setLoading(false);
-      return;
-    }
-    navigation.navigate("Home");
+    register(email, password)
+      .then(() => {
+        navigation.navigate("Lista de animais");
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+        setLoading(false);
+      });
   }
 
   return (
