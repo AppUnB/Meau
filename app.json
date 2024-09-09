@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dappmeau.meau"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +26,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.vhvictor1.myapp"
+      "package": "com.dappmeau.meau",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/images/Meau_Icone.png"

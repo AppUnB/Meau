@@ -14,6 +14,8 @@ import { useEffect } from "react";
 import CustomDrawerContent from "./src/components/drawerContent";
 import ListarAnimais from "./src/screens/listaAnimais";
 import Chat from "./src/screens/chat";
+import NotificationProvider from "./src/components/NotificationProvider";
+import ListarChats from "./src/screens/ListarChats";
 
 const Drawer = createDrawerNavigator();
 
@@ -36,51 +38,58 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <NativeBaseProvider>
-          <Drawer.Navigator
-            initialRouteName="Login"
-            drawerContent={(props) => <CustomDrawerContent {...props} />}
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: "#ffd358",
-              },
-              headerTintColor: "#434343",
-            }}
-          >
-            <Drawer.Screen
-              name="Cadastro do animal"
-              component={AnimalRegister}
-              options={{ drawerLabel: "Cadastro do animal" }}
-            />
-            <Drawer.Screen
-              name="Lista de animais"
-              component={ListarAnimais}
-              options={{ drawerLabel: "Lista de animais" }}
-            />
-            <Drawer.Screen
-              name="chat"
-              component={Chat}
-              options={{ drawerLabel: "Chat" }}
-            />
-            <Drawer.Screen
-              name="Detalhes do Animal"
-              component={AnimalDetails}
-              options={{ drawerLabel: () => null, title: null }}
-            />
-            <Drawer.Screen
-              name="Login"
-              component={Login}
-              options={{ drawerLabel: "" }}
-            />
-            <Drawer.Screen
-              name="Cadastro"
-              component={Register}
-              options={{ drawerLabel: "" }}
-            />
-          </Drawer.Navigator>
-        </NativeBaseProvider>
-      </NavigationContainer>
+      <NotificationProvider>
+        <NavigationContainer>
+          <NativeBaseProvider>
+            <Drawer.Navigator
+              initialRouteName="Login"
+              drawerContent={(props) => <CustomDrawerContent {...props} />}
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: "#ffd358",
+                },
+                headerTintColor: "#434343",
+              }}
+            >
+              <Drawer.Screen
+                name="Login"
+                component={Login}
+                options={{ drawerLabel: "Login" }}
+              />
+              <Drawer.Screen
+                name="Cadastro"
+                component={Register}
+                options={{ drawerLabel: "Cadastro" }}
+              />
+              <Drawer.Screen
+                name="Cadastro do animal"
+                component={AnimalRegister}
+                options={{ drawerLabel: "Cadastro do animal" }}
+              />
+              <Drawer.Screen
+                name="Detalhes do Animal"
+                component={AnimalDetails}
+                options={{ drawerLabel: "Detalhes do Animal" }}
+              />
+              <Drawer.Screen
+                name="Lista de animais"
+                component={ListarAnimais}
+                options={{ drawerLabel: "Lista de animais" }}
+              />
+              <Drawer.Screen
+                name="chat"
+                component={Chat}
+                options={{ drawerLabel: "Chat" }}
+              />
+              <Drawer.Screen
+                name="listarChats"
+                component={ListarChats}
+                options={{ drawerLabel: "Conversas" }}
+              />
+            </Drawer.Navigator>
+          </NativeBaseProvider>
+        </NavigationContainer>
+      </NotificationProvider>
     </AuthProvider>
   );
 }
