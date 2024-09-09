@@ -31,8 +31,8 @@ function CustomDrawerContent(props) {
     <DrawerContentScrollView {...props}>
       {isLoggedIn ? (
         <>
-          <DrawerItemList {...props} />
           <DrawerItem label="Logout" onPress={handleLogout} />
+          <DrawerItemList {...props} />
         </>
       ) : (
         <>
