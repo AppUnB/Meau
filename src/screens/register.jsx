@@ -53,11 +53,7 @@ const Register = ({ navigation }) => {
       <View style={styles.fieldsContainer}>
         <Textfield placeholder="e-mail" value={email} onChangeText={setEmail} />
 
-        <View style={[{
-          width: 312, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',
-          borderBottomColor: "#BDBDBD",
-          borderBottomWidth: 1,
-        }]}>
+        <View style={[styles.inputContainer]}>
           <TextInput
             style={[styles.textInput,]}
             placeholder="Senha"
@@ -65,7 +61,7 @@ const Register = ({ navigation }) => {
             value={password}
             onChangeText={setPassword}
           />
-          <TouchableOpacity onPress={() => setIsPasswordHidden(!isPasswordHidden)}>
+          <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => setIsPasswordHidden(!isPasswordHidden)}>
             {isPasswordHidden ? (
               <Entypo name="eye" size={24} color="black" />) : (
               <Entypo name="eye-with-line" size={24} color="black" />)}
@@ -80,10 +76,10 @@ const Register = ({ navigation }) => {
             value={verifyPassword}
             onChangeText={setVerifyPassword}
           />
-          <TouchableOpacity onPress={() => setIsConfirmPasswordHidden(!isConfirmPasswordHidden)}>
+          <TouchableOpacity style={{paddingRight:10} } onPress={() => setIsConfirmPasswordHidden(!isConfirmPasswordHidden)}>
             {isConfirmPasswordHidden ? (
-              <Entypo name="eye" size={24} color="black" style={styles.eyeIcon} />) : (
-                <Entypo name="eye-with-line" size={24} color="black" style={styles.eyeIcon} />)}
+              <Entypo name="eye" size={24} color="black" />) : (
+                <Entypo name="eye-with-line" size={24} color="black"/>)}
           </TouchableOpacity>
         </View>
 
@@ -155,7 +151,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.7,
     padding: 0,
-    paddingHorizontal:14,
+    paddingStart: 56,
+    marginVertical: 0,
   },
   inputContainer: {
     backgroundColor: "transparent",
@@ -165,10 +162,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    marginBottom: 20,
+    marginVertical: 0,
     justifyContent: 'flex-end' 
-  },
-  eyeIcon: {
-    marginRight: 0, // Ajuste a posição do ícone conforme necessário
   },
 });
