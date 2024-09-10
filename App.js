@@ -63,24 +63,9 @@ export default function App() {
                 options={{ drawerLabel: "Cadastro" }}
               />
               <Drawer.Screen
-                name="Cadastro do animal"
-                component={AnimalRegister}
-                options={{ drawerLabel: "Cadastro do animal" }}
-              />
-              <Drawer.Screen
-                name="Detalhes do Animal"
-                component={AnimalDetails}
-                options={{ drawerLabel: "Detalhes do Animal" }}
-              />
-              <Drawer.Screen
                 name="Lista de animais"
                 component={ListarAnimais}
-                options={{ drawerLabel: "Lista de animais" }}
-              />
-              <Drawer.Screen
-                name="chat"
-                component={Chat}
-                options={{ drawerLabel: "Chat" }}
+                options={{ drawerLabel: "Adotar (Lista de animais)" }}
               />
               <Drawer.Screen
                 name="listarChats"
@@ -91,6 +76,21 @@ export default function App() {
                 name="Meus animais"
                 component={MyPets}
                 options={{ drawerLabel: "Meus animais" }}
+              />
+              <Drawer.Screen
+                name="Cadastro do animal"
+                component={AnimalRegister}
+                options={{ drawerLabel: "Botar animal para adoção" }}
+              />
+              <Drawer.Screen
+                name="chat"
+                component={Chat}
+                options={{ drawerLabel: "" }}
+              />
+              <Drawer.Screen
+                name="Detalhes do Animal"
+                component={AnimalDetails}
+                options={{ drawerLabel: "" }}
               />
             </Drawer.Navigator>
           </NativeBaseProvider>
