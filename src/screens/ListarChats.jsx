@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import {
@@ -110,34 +110,81 @@ export default function ListarChats({ route, navigation }) {
 
   return (
     <View>
-      <Text>Interessados nos meus animais</Text>
+      <Text style={styles.title}>Interessados nos meus animais</Text>
       {meusChats.map((chat) => (
-        <View key={chat.id}>
-          <Pressable
-            onPress={() => {
-              handleRedirectToChat(chat.id);
-            }}
-          >
-            <Text>
-              {chat.animal.nome} - {chat.interessado.nome}
-            </Text>
-          </Pressable>
-        </View>
+        <Pressable key={chat.id} onPress={() => handleRedirectToChat(chat.id)}>
+          <ChatCard chat={chat} />
+        </Pressable>
       ))}
-      <Text>Animais em que eu estou interessado</Text>
+      <Text style={styles.title}>Animais em que eu estou interessado</Text>
       {chatsInteressado.map((chat) => (
-        <View key={chat.id}>
-          <Pressable
-            onPress={() => {
-              handleRedirectToChat(chat.id);
-            }}
-          >
-            <Text>
-              {chat.animal.nome} - {chat.dono.nome}
-            </Text>
-          </Pressable>
-        </View>
+        <Pressable key={chat.id} onPress={() => handleRedirectToChat(chat.id)}>
+          <ChatCard chat={chat} />
+        </Pressable>
       ))}
     </View>
   );
 }
+
+function ChatCard({ chat, dono }) {
+  return (
+    <View
+      style={{
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: "lightgray",
+        display: "flex",
+        flexDirection: "row",
+        padding: 8,
+        width: "100%",
+      }}
+    >
+      <Image
+        source={{ uri: chat.animal.imageUrl }}
+        style={styles.animalImage}
+        resizeMode="cover"
+        alt="Foto do animal"
+      />
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "col",
+          justifyContent: "space-evenly",
+          marginLeft: 8,
+          flex: 1,
+        }}
+      >
+        <Text style={{ width: "100%", textAlign: "left" }}>
+          Animal: {chat.animal.nome}
+        </Text>
+        <Text style={{ width: "100%", textAlign: "right", paddingRight: 8 }}>
+          {chat.dono
+            ? "Dono: " + chat.dono.nome
+            : "Interessado: " + chat.interessado.nome}
+        </Text>
+      </View>
+      <Image
+        source={{
+          uri: chat.dono ? chat.dono.imageUrl : chat.interessado.imageUrl,
+        }}
+        style={styles.animalImage}
+        resizeMode="cover"
+        alt="Foto do animal"
+      />
+    </View>
+  );
+}
+export const styles = StyleSheet.create({
+  animalImage: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 20,
+    marginBottom: 8,
+  },
+});
