@@ -1,8 +1,9 @@
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import { View, StyleSheet, Text, ScrollView, TouchableOpacity, TextInput } from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { Entypo } from "@expo/vector-icons"; // Add this line to import the Entypo component
 import { useState } from "react";
 import { register } from "../services/auth";
 import React from "react";
@@ -13,6 +14,9 @@ const Register = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true);
+
 
   async function handleRegister() {
     if (loading || !email || !password) return;
@@ -47,27 +51,51 @@ const Register = ({ navigation }) => {
       </View>
       <Text style={styles.positionText}>INFORMAÇÕES DE PERFIL</Text>
       <View style={styles.fieldsContainer}>
-        <Textfield placeholder="email" value={email} onChangeText={setEmail} />
-        <Textfield
-          placeholder="Senha"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
-        <Textfield
-          placeholder="Confirmação de senha"
-          secureTextEntry={true}
-          value={verifyPassword}
-          onChangeText={setVerifyPassword}
-        />
+        <Textfield placeholder="e-mail" value={email} onChangeText={setEmail} />
+
+        <View style={[{
+          width: 312, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start',
+          borderBottomColor: "#BDBDBD",
+          borderBottomWidth: 1,
+        }]}>
+          <TextInput
+            style={[styles.textInput,]}
+            placeholder="Senha"
+            secureTextEntry={isPasswordHidden}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <TouchableOpacity onPress={() => setIsPasswordHidden(!isPasswordHidden)}>
+            {isPasswordHidden ? (
+              <Entypo name="eye" size={24} color="black" />) : (
+              <Entypo name="eye-with-line" size={24} color="black" />)}
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={[styles.textInput,]}
+            placeholder="Confirmação de senha"
+            secureTextEntry={isConfirmPasswordHidden}
+            value={verifyPassword}
+            onChangeText={setVerifyPassword}
+          />
+          <TouchableOpacity onPress={() => setIsConfirmPasswordHidden(!isConfirmPasswordHidden)}>
+            {isConfirmPasswordHidden ? (
+              <Entypo name="eye" size={24} color="black" style={styles.eyeIcon} />) : (
+                <Entypo name="eye-with-line" size={24} color="black" style={styles.eyeIcon} />)}
+          </TouchableOpacity>
+        </View>
+
       </View>
+
       <Text style={styles.positionText}>FOTO DE PERFIL</Text>
       <View style={styles.imageContainer}>
         <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
         <Text>adicionar foto</Text>
       </View>
       <Button label="FAZER CADASTRO" onPress={handleRegister} />
-    </ScrollView>
+    </ScrollView >
   );
 };
 
@@ -119,5 +147,28 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     textAlign: "left",
+  },
+  textInput: {
+    height: 45,
+    width: 312,
+    color: "black",
+    fontSize: 14,
+    opacity: 0.7,
+    padding: 0,
+    paddingHorizontal:14,
+  },
+  inputContainer: {
+    backgroundColor: "transparent",
+    borderBottomColor: "#BDBDBD",
+    borderBottomWidth: 1,
+    width: 312,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    marginBottom: 20,
+    justifyContent: 'flex-end' 
+  },
+  eyeIcon: {
+    marginRight: 0, // Ajuste a posição do ícone conforme necessário
   },
 });
