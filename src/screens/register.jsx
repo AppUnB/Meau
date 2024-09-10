@@ -1,13 +1,24 @@
-import { View, StyleSheet, Text, ScrollView, TouchableOpacity, TextInput } from "react-native";
+/* eslint-disable react/prop-types */
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  Image,
+} from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { Entypo } from "@expo/vector-icons"; // Add this line to import the Entypo component
+import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import { register } from "../services/auth";
 import React from "react";
-import { saveUserNotificationToken } from "../services/notificationService";
+import { uploadImage } from "../services/imageUpload.service";
+import * as ImagePicker from "expo-image-picker";
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -16,18 +27,50 @@ const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [3, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      const image = result.assets[0].uri;
+      const path = "images/users/" + new Date().getTime();
+      uploadImage(image, path).then((url) => {
+        setImageUrl(url);
+      });
+    }
+  };
 
   async function handleRegister() {
-    if (loading || !email || !password) return;
+    if (loading) return;
+
+    if (password !== verifyPassword) {
+      setErrorMessage("As senhas não coincidem.");
+      return;
+    }
+
+    if (!email || !password) {
+      setErrorMessage("Preencha todos os campos.");
+      return;
+    }
 
     setLoading(true);
+    setErrorMessage("");
     register(email, password)
       .then(() => {
         navigation.navigate("Lista de animais");
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
+        Alert.alert(
+          "Erro no cadastro",
+          "Não foi possível realizar o cadastro. Verifique suas informações e tente novamente."
+        );
         setLoading(false);
       });
   }
@@ -42,10 +85,6 @@ const Register = ({ navigation }) => {
       <Text style={styles.positionText}>INFORMAÇÕES PESSOAIS</Text>
       <View style={styles.fieldsContainer}>
         <Textfield placeholder="Nome completo" />
-        <Textfield placeholder="Idade" />
-        <Textfield placeholder="nome" />
-        <Textfield placeholder="Estado" />
-        <Textfield placeholder="Cidade" />
         <Textfield placeholder="Endereço" />
         <Textfield placeholder="Telefone" />
       </View>
@@ -55,43 +94,65 @@ const Register = ({ navigation }) => {
 
         <View style={[styles.inputContainer]}>
           <TextInput
-            style={[styles.textInput,]}
+            style={[styles.textInput]}
             placeholder="Senha"
             secureTextEntry={isPasswordHidden}
             value={password}
             onChangeText={setPassword}
           />
-          <TouchableOpacity style={{ paddingRight: 10 }} onPress={() => setIsPasswordHidden(!isPasswordHidden)}>
+          <TouchableOpacity
+            style={{ paddingRight: 10 }}
+            onPress={() => setIsPasswordHidden(!isPasswordHidden)}
+          >
             {isPasswordHidden ? (
-              <Entypo name="eye" size={24} color="black" />) : (
-              <Entypo name="eye-with-line" size={24} color="black" />)}
+              <Entypo name="eye" size={24} color="black" />
+            ) : (
+              <Entypo name="eye-with-line" size={24} color="black" />
+            )}
           </TouchableOpacity>
         </View>
 
         <View style={styles.inputContainer}>
           <TextInput
-            style={[styles.textInput,]}
+            style={[styles.textInput]}
             placeholder="Confirmação de senha"
             secureTextEntry={isConfirmPasswordHidden}
             value={verifyPassword}
             onChangeText={setVerifyPassword}
           />
-          <TouchableOpacity style={{paddingRight:10} } onPress={() => setIsConfirmPasswordHidden(!isConfirmPasswordHidden)}>
+          <TouchableOpacity
+            style={{ paddingRight: 10 }}
+            onPress={() =>
+              setIsConfirmPasswordHidden(!isConfirmPasswordHidden)
+            }
+          >
             {isConfirmPasswordHidden ? (
-              <Entypo name="eye" size={24} color="black" />) : (
-                <Entypo name="eye-with-line" size={24} color="black"/>)}
+              <Entypo name="eye" size={24} color="black" />
+            ) : (
+              <Entypo name="eye-with-line" size={24} color="black" />
+            )}
           </TouchableOpacity>
         </View>
 
+        {errorMessage ? (
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        ) : null}
       </View>
 
       <Text style={styles.positionText}>FOTO DE PERFIL</Text>
-      <View style={styles.imageContainer}>
-        <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
-        <Text>adicionar foto</Text>
-      </View>
+      <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+        {!imageUrl ? (
+          <>
+            <FontAwesomeIcon icon={faCirclePlus} style={styles.icon} />
+            <Text>adicionar foto</Text>
+          </>
+        ) : (
+          <Image source={{ uri: imageUrl }} style={styles.image} />
+        )}
+      </TouchableOpacity>
+
       <Button label="FAZER CADASTRO" onPress={handleRegister} />
-    </ScrollView >
+    </ScrollView>
   );
 };
 
@@ -130,7 +191,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#d9d9d9",
     marginVertical: 28,
     borderRadius: 10,
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -151,7 +211,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     opacity: 0.7,
     padding: 0,
-    paddingStart: 56,
     marginVertical: 0,
   },
   inputContainer: {
@@ -159,10 +218,19 @@ const styles = StyleSheet.create({
     borderBottomColor: "#BDBDBD",
     borderBottomWidth: 1,
     width: 312,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 10,
     marginVertical: 0,
-    justifyContent: 'flex-end' 
+    justifyContent: "flex-end",
+  },
+  errorText: {
+    color: "red",
+    marginTop: 10,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 10,
   },
 });
