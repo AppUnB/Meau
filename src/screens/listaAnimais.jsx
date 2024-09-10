@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { useState, React, useEffect } from "react";
 import { listarAnimais } from "../services/animalService";
-import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function ListarAnimais({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -49,12 +48,6 @@ export default function ListarAnimais({ navigation }) {
 }
 
 function AnimalCard({ animal, navigate }) {
-  const [favorited, setFavorited] = useState(false);
-
-  function toggleFavorite() {
-    setFavorited(!favorited);
-  }
-
   function onPress() {
     navigate("Detalhes do Animal", { id: animal.id });
   }
@@ -87,13 +80,6 @@ function AnimalCard({ animal, navigate }) {
         }}
       >
         <Text style={{ padding: 5 }}>{animal.nome}</Text>
-        <Pressable onPress={toggleFavorite} style={styles.heartIcon}>
-          <Icon
-            name={favorited ? "heart" : "heart-o"}
-            size={20}
-            color={favorited ? "#FF0000" : "#000"}
-          />
-        </Pressable>
       </View>
       <Image
         source={{ uri: animal.imageUrl }}
