@@ -14,7 +14,7 @@ async function login(email, password) {
   return user;
 }
 
-async function register(email, password) {
+async function register(email, password, nome, imageUrl) {
   const auth = getAuth();
   authData = await createUserWithEmailAndPassword(auth, email, password);
   if (!authData) {
@@ -27,7 +27,8 @@ async function register(email, password) {
 
   const payload = {
     email: email,
-    nome: email.split("@")[0],
+    nome: nome,
+    imageUrl: imageUrl,
   };
 
   setDoc(docRef, payload).then(() => {

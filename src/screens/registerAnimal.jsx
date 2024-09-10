@@ -45,7 +45,6 @@ function AnimalRegister() {
       const path = "images/pet/" + new Date().getTime();
       uploadImage(image, path).then((url) => {
         setValue("imageUrl", url);
-        console.log(url);
       });
     }
   };

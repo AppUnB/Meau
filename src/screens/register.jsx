@@ -23,6 +23,7 @@ import * as ImagePicker from "expo-image-picker";
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [nome, setNome] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
@@ -61,7 +62,7 @@ const Register = ({ navigation }) => {
 
     setLoading(true);
     setErrorMessage("");
-    register(email, password)
+    register(email, password, nome, imageUrl)
       .then(() => {
         navigation.navigate("Lista de animais");
       })
@@ -84,7 +85,7 @@ const Register = ({ navigation }) => {
       </Text>
       <Text style={styles.positionText}>INFORMAÇÕES PESSOAIS</Text>
       <View style={styles.fieldsContainer}>
-        <Textfield placeholder="Nome completo" />
+        <Textfield placeholder="Nome" value={nome} onChangeText={setNome} />
         <Textfield placeholder="Endereço" />
         <Textfield placeholder="Telefone" />
       </View>
@@ -122,9 +123,7 @@ const Register = ({ navigation }) => {
           />
           <TouchableOpacity
             style={{ paddingRight: 10 }}
-            onPress={() =>
-              setIsConfirmPasswordHidden(!isConfirmPasswordHidden)
-            }
+            onPress={() => setIsConfirmPasswordHidden(!isConfirmPasswordHidden)}
           >
             {isConfirmPasswordHidden ? (
               <Entypo name="eye" size={24} color="black" />
@@ -206,12 +205,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 45,
-    width: 312,
+    width: "100%",
     color: "black",
     fontSize: 14,
     opacity: 0.7,
     padding: 0,
     marginVertical: 0,
+    paddingLeft: 32,
   },
   inputContainer: {
     backgroundColor: "transparent",
