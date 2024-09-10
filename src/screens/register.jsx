@@ -64,7 +64,10 @@ const Register = ({ navigation }) => {
     setErrorMessage("");
     register(email, password, nome, imageUrl)
       .then(() => {
-        navigation.navigate("Lista de animais");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Lista de animais" }],
+        });
       })
       .catch((error) => {
         console.error("Error adding document: ", error);

@@ -6,6 +6,7 @@ import {
   doc,
   onSnapshot,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import {
   View,
@@ -14,9 +15,8 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
+  Image,
 } from "react-native";
-import Textfield from "../components/textField";
-import Button from "../components/button";
 import { auth, getAuth } from "../services/firebaseUtils";
 import { enviarNotificacao } from "../services/notificationService";
 
@@ -25,10 +25,24 @@ export default function Chat({ route, navigation }) {
 
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [chat, setChat] = useState(null);
+  const [dono, setDono] = useState(null);
+  const [interessado, setInteressado] = useState(null);
 
   useEffect(() => {
     const db = getFirestore();
     setMessages([]);
+
+    const chatRef = doc(db, "chatRooms", idChat);
+    getDoc(chatRef).then((chat) => {
+      setChat(chat);
+      getDoc(chat.data().idDono).then((dono) => {
+        setDono(dono);
+      });
+      getDoc(chat.data().idInteressado).then((interessado) => {
+        setInteressado(interessado);
+      });
+    });
 
     const unsubscribe = onSnapshot(
       collection(db, "chatRooms/" + idChat + "/messages"),
@@ -49,12 +63,7 @@ export default function Chat({ route, navigation }) {
   }, []);
 
   async function handleEnviarNotificacao(title, message) {
-    console.log("enviando notificação");
-    const auth = getAuth();
-
-    const db = getFirestore();
-    const chatRef = doc(db, "chatRooms", idChat);
-    const chat = await getDoc(chatRef);
+    if (!chat) return;
     const data = chat.data();
 
     const donoRef = data.idDono;
@@ -90,8 +99,96 @@ export default function Chat({ route, navigation }) {
       });
   }
 
+  function handleFinalizarConversa() {
+    const db = getFirestore();
+    const chatRef = doc(db, "chatRooms", idChat);
+    deleteDoc(chatRef);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "listarChats" }],
+    });
+  }
+
+  function handleTransferirPet() {
+    setDoc(
+      chat.data().idAnimal,
+      { idDono: chat.data().idInteressado },
+      { merge: true }
+    ).then(() => {
+      handleFinalizarConversa();
+    });
+  }
+
   return (
     <View style={{ display: "flex", flexDirection: "col", height: "100%" }}>
+      {dono?.id === getAuth().currentUser?.uid ? (
+        <View
+          style={{
+            padding: 24,
+            backgroundColor: "#dddddd",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "col",
+              marginVertical: "auto",
+              gap: 8,
+            }}
+          >
+            <Image
+              source={{ uri: interessado?.data().imageUrl }}
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: 24,
+              }}
+              resizeMode="cover"
+              alt="Foto do interessado"
+            />
+            <Text>{interessado?.data().nome}</Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginVertical: "auto",
+              justifyContent: "flex-end",
+              gap: 16,
+            }}
+          >
+            <Pressable
+              style={{
+                backgroundColor: "#EE5555",
+                padding: 16,
+                borderRadius: 8,
+                height: "fit-content",
+              }}
+              onPress={handleFinalizarConversa}
+            >
+              <Text style={{ color: "#ffffff", margin: "auto" }}>
+                Finalizar conversa
+              </Text>
+            </Pressable>
+            <Pressable
+              style={{
+                backgroundColor: "#9afcc8",
+                padding: 12,
+                borderRadius: 8,
+              }}
+              onPress={handleTransferirPet}
+            >
+              <Text style={{ color: "black", margin: "auto" }}>
+                Transferir Pet
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      ) : (
+        <></>
+      )}
       <ScrollView
         style={{
           display: "flex",
