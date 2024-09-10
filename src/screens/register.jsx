@@ -6,7 +6,7 @@ import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { register } from "../services/auth";
 import React from "react";
-import saveUserNotificationToken from "../services/notificationService";
+import { saveUserNotificationToken } from "../services/notificationService";
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");

@@ -4,7 +4,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "./firebaseUtils";
-import saveUserNotificationToken from "./notificationService";
+import { saveUserNotificationToken } from "./notificationService";
 
 async function login(email, password) {
   const auth = getAuth();
