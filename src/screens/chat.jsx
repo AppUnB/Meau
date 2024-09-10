@@ -7,7 +7,14 @@ import {
   onSnapshot,
   getDoc,
 } from "firebase/firestore";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  Pressable,
+} from "react-native";
 import Textfield from "../components/textField";
 import Button from "../components/button";
 import { auth, getAuth } from "../services/firebaseUtils";
@@ -84,35 +91,57 @@ export default function Chat({ route, navigation }) {
   }
 
   return (
-    <View style={{ minHeight: "90%" }}>
-      <Text
-        style={{ textAlign: "center", fontSize: 24, marginBottom: 16 }}
-      ></Text>
+    <View style={{ display: "flex", flexDirection: "col", height: "100%" }}>
       <ScrollView
         style={{
           display: "flex",
           flexDirection: "column",
           paddingTop: 16,
           paddingBottom: 100,
-          maxHeight: "80%",
+          flex: 1,
         }}
       >
         {messages.map((message, index) => (
           <MessageComponnent key={index} message={message} />
         ))}
       </ScrollView>
-      <View style={{ borderTopWidth: 1, borderTopColor: "black" }}>
-        <Textfield
+      <View
+        style={{
+          borderTopWidth: 1,
+          borderTopColor: "#aaaaaa",
+          paddingTop: 8,
+          paddingBottom: 16,
+          paddingHorizontal: 8,
+          display: "flex",
+          flexDirection: "row",
+          height: "fit-content",
+        }}
+      >
+        <TextInput
+          onChangeText={setMessage}
           placeholder="Digite sua mensagem"
           value={message}
-          onChangeText={setMessage}
+          style={{
+            flex: 3,
+            padding: 8,
+            borderWidth: 1,
+            borderColor: "#aaaaaa",
+            marginRight: 4,
+            borderRadius: 8,
+          }}
         />
-        <Button
+        <Pressable
           onPress={enviarMensagem}
-          label="Enviar"
-          backgroundColor="#33FF44"
-          textColor="#000000"
-        />
+          style={{
+            backgroundColor: "#9afcc8",
+            padding: 8,
+            textColor: "black",
+            flex: 1,
+            borderRadius: 6,
+          }}
+        >
+          <Text style={{ textAlign: "center", margin: "auto" }}>Enviar</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -127,7 +156,7 @@ function MessageComponnent({ message }) {
           ? {
               marginLeft: "auto",
               marginRight: 8,
-              backgroundColor: "#33FF44",
+              backgroundColor: "#9afcc8",
             }
           : {
               marginRight: "auto",
