@@ -1,5 +1,11 @@
 import PropTypes from "prop-types";
-import { getDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getFirestore,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   Image,
@@ -15,6 +21,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { getAnimalById, deletarAnimal } from "../services/animalService";
 import { getAuth } from "firebase/auth";
+import { enviarNotificacao } from "../services/notificationService";
 
 const AnimalDetails = ({ route }) => {
   const auth = getAuth();
@@ -78,6 +85,45 @@ const AnimalDetails = ({ route }) => {
       },
     ]);
   };
+
+  function handleTenhoInteresse() {
+    const idAnimal = animal.id;
+    const idDono = animal.idDono;
+    const idUsuario = auth.currentUser.uid;
+
+    const db = getFirestore();
+
+    addDoc(collection(db, "chatRooms"), {
+      idAnimal: doc(db, "animais", idAnimal),
+      idDono: idDono,
+      idInteressado: doc(db, "users", idUsuario),
+    })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+        addDoc(collection(db, "chatRooms/" + docRef.id + "/messages"), {
+          author: doc(db, "users", idUsuario),
+          content: "Olá, tenho interesse no seu pet!",
+          timestamp: new Date(),
+        }).then(() => {
+          try {
+            console.log("idDono", idDono);
+            const dono = getDoc(idDono);
+            console.log("dono", dono);
+            enviarNotificacao(
+              dono.pushToken,
+              "Alguém tem interesse no seu pet!",
+              "Abra suas conversas para responder."
+            );
+          } catch (error) {
+            console.error("Erro ao enviar notificação", error);
+          }
+          navigation.navigate("chat", { idChat: docRef.id });
+        });
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  }
 
   const renderDetail = (label, value) => (
     <View style={styles.detailContainer}>
@@ -155,7 +201,10 @@ const AnimalDetails = ({ route }) => {
         {renderDetail(`Mais sobre ${animal.nome}`, animal.sobre)}
         {auth.currentUser.uid === animal.idDonoReal ? (
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={[styles.button, { marginRight: 16 }]}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("listarChats")}
+              style={[styles.button, { marginRight: 16 }]}
+            >
               <Text style={styles.buttonText}>Ver interessados</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleDelete}>
@@ -164,7 +213,10 @@ const AnimalDetails = ({ route }) => {
           </View>
         ) : (
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={[styles.button, { marginRight: 16 }]}>
+            <TouchableOpacity
+              onPress={handleTenhoInteresse}
+              style={[styles.button, { marginRight: 16 }]}
+            >
               <Text style={styles.buttonText}>Tenho interesse</Text>
             </TouchableOpacity>
           </View>
