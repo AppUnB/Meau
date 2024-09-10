@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthProvider } from "./src/components/authProvider";
+import { AuthContext, AuthProvider } from "./src/components/authProvider";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Login from "./src/screens/login";
 import Register from "./src/screens/register";
@@ -17,6 +17,7 @@ import Chat from "./src/screens/chat";
 import NotificationProvider from "./src/components/NotificationProvider";
 import ListarChats from "./src/screens/ListarChats";
 import MyPets from "./src/screens/myPets";
+import { getAuth } from "firebase/auth";
 
 const Drawer = createDrawerNavigator();
 
@@ -43,7 +44,7 @@ export default function App() {
         <NavigationContainer>
           <NativeBaseProvider>
             <Drawer.Navigator
-              initialRouteName="Login"
+              initialRouteName="Lista de animais"
               drawerContent={(props) => <CustomDrawerContent {...props} />}
               screenOptions={{
                 headerStyle: {

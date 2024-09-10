@@ -11,11 +11,18 @@ import {
 import { useState, React, useEffect } from "react";
 import { listarAnimais } from "../services/animalService";
 
+import { getAuth } from "firebase/auth";
+
 export default function ListarAnimais({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [animais, setAnimais] = useState([]);
 
   useEffect(() => {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+      navigation.navigate("Login");
+      return;
+    }
     setLoading(true);
     listarAnimais()
       .then((animais) => {
