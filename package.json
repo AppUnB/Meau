@@ -30,9 +30,7 @@
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
     "firebase": "^10.11.0",
-    "install": "^0.13.0",
     "native-base": "^3.4.28",
-    "npx": "^3.0.0",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -60,6 +58,10 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.4",
     "globals": "^15.8.0"
+  },
+  "overrides": {
+    "protobufjs": ">=7.5.5",
+    "fast-xml-parser": ">=4.5.4"
   },
   "private": true
 }
