@@ -60,8 +60,8 @@
     "globals": "^15.8.0"
   },
   "overrides": {
-    "protobufjs": ">=7.5.5",
-    "fast-xml-parser": ">=4.5.4"
+    "protobufjs": "^7.5.5",
+    "fast-xml-parser": "^4.5.4"
   },
   "private": true
 }
