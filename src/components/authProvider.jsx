@@ -1,8 +1,9 @@
-import React, { createContext, useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { View, ActivityIndicator } from "react-native";
 import PropTypes from "prop-types";
-import styles from "../screens/login";
+import React, { createContext, useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { USE_STUB_BACKEND } from "../config/runtime";
+import { styles } from "../screens/login";
 
 export const AuthContext = createContext();
 
@@ -11,6 +12,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (USE_STUB_BACKEND) {
+      setIsLoggedIn(true);
+      setLoading(false);
+      return;
+    }
+
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsLoggedIn(!!user);

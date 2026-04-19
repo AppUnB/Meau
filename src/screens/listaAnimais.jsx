@@ -1,23 +1,30 @@
 /* eslint-disable react/prop-types */
+import { React, useEffect, useState } from "react";
 import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  ScrollView,
-  Pressable,
-  Image,
-  Text,
+    ActivityIndicator,
+    Alert,
+    Image,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
-import { useState, React, useEffect } from "react";
 import { listarAnimais } from "../services/animalService";
 
 import { getAuth } from "firebase/auth";
+import { STUB_ANIMAIS, USE_STUB_BACKEND } from "../config/runtime";
 
 export default function ListarAnimais({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [animais, setAnimais] = useState([]);
 
   useEffect(() => {
+    if (USE_STUB_BACKEND) {
+      setAnimais(STUB_ANIMAIS);
+      return;
+    }
+
     const auth = getAuth();
     if (!auth.currentUser) {
       navigation.navigate("Login");
@@ -48,14 +55,23 @@ export default function ListarAnimais({ navigation }) {
           key={animal.id}
           animal={animal}
           navigate={navigation.navigate}
+          isStub={USE_STUB_BACKEND}
         />
       ))}
     </ScrollView>
   );
 }
 
-function AnimalCard({ animal, navigate }) {
+function AnimalCard({ animal, navigate, isStub }) {
   function onPress() {
+    if (isStub) {
+      Alert.alert(
+        "Modo demo",
+        "Detalhes, chat e persistência exigem backend Firebase real."
+      );
+      return;
+    }
+
     navigate("Detalhes do Animal", { id: animal.id });
   }
 

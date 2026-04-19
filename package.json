@@ -25,12 +25,17 @@
     "@react-navigation/native-stack": "^6.9.8",
     "expo": "~54.0.33",
     "expo-app-loading": "^1.0.3",
+    "expo-constants": "~16.0.2",
+    "expo-dev-client": "~4.0.25",
+    "expo-device": "~6.0.2",
     "expo-font": "~12.0.9",
     "expo-image-picker": "~15.0.7",
+    "expo-notifications": "~0.28.16",
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
     "firebase": "^10.11.0",
     "native-base": "^3.4.28",
+    "normalize-css-color": "^1.0.2",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -46,18 +51,22 @@
     "react-native-svg": "15.2.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.19.6",
-    "typescript": "^5.3.0",
-    "expo-notifications": "~0.28.16",
-    "expo-device": "~6.0.2",
-    "expo-constants": "~16.0.2",
-    "expo-dev-client": "~4.0.25"
+    "typescript": "^5.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.9",
     "@eslint/js": "^9.7.0",
+    "@types/react": "~18.3.28",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.4",
     "globals": "^15.8.0"
+  },
+  "expo": {
+    "install": {
+      "exclude": [
+        "@types/react"
+      ]
+    }
   },
   "overrides": {
     "protobufjs": "^7.5.5",

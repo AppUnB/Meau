@@ -1,17 +1,21 @@
-import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
+import { useEffect } from "react";
 import { Platform } from "react-native";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return {
-      shouldShowAlert: true,
-    };
-  },
-});
+if (Platform.OS !== "web") {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => {
+      return {
+        shouldShowAlert: true,
+      };
+    },
+  });
+}
 
 export default function NotificationProvider({ children }) {
   useEffect(() => {
+    if (Platform.OS === "web") return;
+
     if (Platform.OS === "android") {
       Notifications.setNotificationChannelAsync("default", {
         name: "default",

@@ -1,20 +1,21 @@
 /* eslint-disable react/prop-types */
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  Pressable,
-  ActivityIndicator,
-  View,
-  Alert,
+    ActivityIndicator,
+    Alert,
+    Image,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { USE_STUB_BACKEND } from "../config/runtime";
 import {
-  deletarAnimal,
-  listarAnimaisDoUsuario,
+    deletarAnimal,
+    listarAnimaisDoUsuario,
 } from "../services/animalService";
 
 const MyPets = () => {
@@ -64,6 +65,14 @@ export default MyPets;
 function AnimalCard({ animal, navigate }) {
   const navigation = useNavigation();
   function onPress() {
+    if (USE_STUB_BACKEND) {
+      Alert.alert(
+        "Modo demo",
+        "Detalhes completos exigem backend Firebase real."
+      );
+      return;
+    }
+
     navigate("Detalhes do Animal", { id: animal.id });
   }
 
